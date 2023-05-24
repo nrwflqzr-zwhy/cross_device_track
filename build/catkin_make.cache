@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/zwhy/workspace/cross_device_tracking/devel -DCMAKE_INSTALL_PREFIX=/home/zwhy/workspace/cross_device_tracking/install -G Unix Makefiles
