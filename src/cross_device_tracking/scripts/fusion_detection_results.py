@@ -2,7 +2,7 @@
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 09:54:46
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-05-28 13:12:18
+LastEditTime: 2023-05-28 13:59:46
 FilePath: /cross_device_tracking/src/cross_device_tracking/scripts/fusion_detection_results.py
 Description: 
 '''
@@ -102,8 +102,8 @@ class MsgTrans(object):
         dist = self.distance(det_list1, det_list2)
         # 小于一定值的距离认为是同一个物体（目前的策略是只保留 lidar1 下的物体）
         match_obj = []
-        for i in range(dist):
-            for j in range(dist[i]):
+        for i in range(len(dist)):
+            for j in range(len(dist[i])):
                 if dist[i][j] < self.dist_threshold:  #小于某一个距离阈值认为是同一个物体
                     match_obj.append([i, j])
 
@@ -123,22 +123,25 @@ class MsgTrans(object):
         new_point = []
         for obj in list:
             point = [
-                obj.coreinfo.center.x, obj.coreinfo.center.y,
-                obj.coreinfo.center.z, 1
+                obj.coreinfo.center.x.data, obj.coreinfo.center.y.data,
+                obj.coreinfo.center.z.data, 1
             ]
             new_point = np.dot(transformation_matrix, point)
-            obj.coreinfo.center.x = new_point[0]
-            obj.coreinfo.center.y = new_point[1]
-            obj.coreinfo.center.z = new_point[2]
+            obj.coreinfo.center.x.data = new_point[0]
+            obj.coreinfo.center.y.data = new_point[1]
+            obj.coreinfo.center.z.data = new_point[2]
 
     def distance(self, det_list1, det_list2):
         dist = []
         for obj1 in det_list1:
             distobj1 = []
             for obj2 in det_list2:
-                x_dist = (obj1.coreinfo.center.x - obj2.coreinfo.center.x)**2
-                y_dist = (obj1.coreinfo.center.y - obj2.coreinfo.center.y)**2
-                z_dist = (obj1.coreinfo.center.z - obj2.coreinfo.center.z)**2
+                x_dist = (obj1.coreinfo.center.x.data -
+                          obj2.coreinfo.center.x.data)**2
+                y_dist = (obj1.coreinfo.center.y.data -
+                          obj2.coreinfo.center.y.data)**2
+                z_dist = (obj1.coreinfo.center.z.data -
+                          obj2.coreinfo.center.z.data)**2
 
                 obj1_obj2_dist = math.sqrt(x_dist + y_dist + z_dist)
                 distobj1.append(obj1_obj2_dist)
