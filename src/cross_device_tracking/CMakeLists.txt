@@ -9,7 +9,7 @@ project(cross_device_tracking)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  rsipy
+  rospy
   std_msgs
 )
 

@@ -1,0 +1,13 @@
+std_msgs/Header header
+std_msgs/Float64 timestamp 
+Point3f          size 
+Point3f          center 
+Point3f          velocity
+std_msgs/Int32   type 
+std_msgs/String detection_name
+int32[] ct
+int32[] tracking
+int32 label_preds
+int32 tracking_id
+int32 age
+int32 active
