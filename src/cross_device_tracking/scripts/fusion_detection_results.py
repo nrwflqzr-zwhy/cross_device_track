@@ -2,7 +2,7 @@
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 09:54:46
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-05-28 13:59:46
+LastEditTime: 2023-06-07 20:37:49
 FilePath: /cross_device_tracking/src/cross_device_tracking/scripts/fusion_detection_results.py
 Description: 
 '''
@@ -19,9 +19,9 @@ class MsgTrans(object):
     def __init__(
             self,
             dist_threshold,
-            sub_topic1='detecion_object_west',  #西侧雷达检测结果
+            sub_topic1='/site16_percept_topic',  #西侧雷达检测结果
             sub_type1=RsPerceptionMsg,
-            sub_topic2='detection_object_east',
+            sub_topic2='/site17_percept_topic',
             sub_type2=RsPerceptionMsg,
             pub_topic='/fusion_detection',
             pub_type=RsPerceptionMsg):
@@ -42,27 +42,21 @@ class MsgTrans(object):
         self.dist_threshold = dist_threshold
         #保存融合后的结果(主要是重叠部分的两个检测结果保留一个)
         self.obj = []
-        self.west_lidar_to_enu = np.asarray([
-            [7.53813991e-01, -6.56837663e-01, 1.81315056e-02, -2.97086914e+02],
-            [6.55347646e-01, 7.53538235e-01, 5.19575927e-02, -1.61894522e+02],
-            [
-                -4.77904866e-02, -2.72839208e-02, 9.98484680e-01,
-                -2.53851837e+00
-            ],
-            [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00]
-        ])
+        self.lidar_to_enu_16 = np.asarray(
+            [[-0.71635481, -0.69691056, 0.03393306, -425.917],
+             [0.69735469, -0.71672395, 0.00179464, -280.337],
+             [0.02306993, 0.02494898, 0.9994225, -6.279708862304688],
+             [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00]])
 
         ### 2023-3-7:
         ### self.west_lidar_to_enu_quat = np.array([-0.02116055,  0.01760372,  0.35040421,  0.93619401])
         ### self.east_lidar_to_enu_quat = np.array([-0.00575475, -0.00296919,  0.76783602, -0.6406137 ])
 
-        self.east_lidar_to_enu = np.asarray([[
-            -1.79161953e-01, 9.83806720e-01, -5.03319364e-03, -1.16202859e+02
-        ], [
-            -9.83738372e-01, -1.79210556e-01, -1.19328459e-02, -1.52014509e+02
-        ], [
-            -1.26416154e-02, 2.81343373e-03, 9.99916134e-01, -4.49053239e+00
-        ], [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00]])
+        self.lidar_to_enu_17 = np.asarray(
+            [[-0.93116046, 0.36459978, -0.00268297, -439.526],
+             [-0.36454281, -0.93110544, -0.01229604, -179.563],
+             [-0.00698126, -0.01047153, 0.9999208, -5.753],
+             [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00]])
 
     def run(self):
         self.subscriber1 = message_filters.Subscriber(self.sub_topic1,
@@ -96,8 +90,8 @@ class MsgTrans(object):
     def fusion_detection(self, det_list1, det_list2, timestamp1, timestamp2):
 
         # 第一步，将二者都变换到enu 坐标系
-        det_list1 = self.toenu(det_list1, self.west_lidar_to_enu)
-        det_list2 = self.toenu(det_list2, self.east_lidar_to_enu)
+        det_list1 = self.toenu(det_list1, self.lidar_to_enu_16)
+        det_list2 = self.toenu(det_list2, self.lidar_to_enu_17)
         # 第二步，计算两个检测结果之间 object 的距离
         dist = self.distance(det_list1, det_list2)
         # 小于一定值的距离认为是同一个物体（目前的策略是只保留 lidar1 下的物体）
@@ -151,9 +145,7 @@ class MsgTrans(object):
 
 if __name__ == "__main__":
     rospy.init_node("fusion_detection_result")
-    msgTrans = MsgTrans(sub_topic1='',
-                        sub_topic2='',
-                        pub_topic1='',
-                        pub_topic2='')
+    msgTrans = MsgTrans(sub_topic1='/site16_percept_topic',
+                        sub_topic2='/site17_percept_topic')
     msgTrans.run()
     rospy.spin()
