@@ -1,0 +1,260 @@
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site3_RSP80/rslidar_points"
+    transform: 
+      translation: 
+        x: -116.137
+        y: -151.939
+        z: -6.889236450195312
+      rotation: 
+        -0.1769985,   0.98405179, -0.01770906,
+        -0.98418125, -0.17682429,  0.0109744 ,
+         0.00766799,  0.01937137,  0.99978295
+    
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site4_RSHELIOS/rslidar_points"
+    transform: 
+      translation: 
+        x: 12.268
+        y: -36.141
+        z: -2.572
+      rotation: 
+         -0.34126769 , 0.93996558, -0.00103941,
+         -0.93988725 ,-0.34125316, -0.01257899,
+         -0.01217852, -0.00331587,  0.99992034
+       
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site5_RSP80/rslidar_points"
+    transform: 
+      translation: 
+        x: 11.842
+        y: -163.613
+        z: -4.211
+      rotation: 
+         0.59719472,  0.80156111 ,-0.02929593,
+        -0.80207434,  0.59705014 ,-0.01441818,
+         0.00593408 , 0.03210797 , 0.99946679
+        
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site6_RSHELIOS/rslidar_points"
+    transform: 
+      translation: 
+        x:  69.31399999999999
+        y: -204.872
+        z: -2.705
+      rotation: 
+        0.72972111 , 0.68347793, -0.01910553,
+       -0.68333889,  0.72996583 , 0.01406538,
+        0.02355977 , 0.00279175 , 0.99971853
+        
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site8_RSP80/rslidar_points"
+    transform: 
+      translation: 
+        x:  80.65300000000001
+        y: -353.948
+        z: -1.265
+      rotation: 
+        -0.88980416,  0.45605204, -0.01628153,
+        -0.45592377, -0.88994976, -0.01108798,
+        -0.01954644, -0.00244299,  0.99980597
+        
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site9_RSHELIOS/rslidar_points"
+    transform: 
+      translation: 
+        x: -51.916
+        y: -354.324
+        z: -2.968
+      rotation: 
+        -0.99945991, -0.03045922, -0.01233388,
+         0.03071078, -0.99931295, -0.02074789,
+        -0.01169344, -0.02111547,  0.99970866
+        
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site12_RSHELIOS/rslidar_points"
+    transform: 
+      translation: 
+        x: -311.846
+        y: -262.919
+        z: -5.657
+      rotation: 
+        -0.3967786,   0.9178273,  -0.012641 ,
+        -0.91777994, -0.39691854, -0.01164693,
+        -0.01570732,  0.0069804 ,  0.99985227
+        
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site16_RSHELIOS/rslidar_points"
+    transform: 
+      translation: 
+        x: -425.917
+        y: -280.337
+        z: -6.279708862304688
+      rotation: 
+        -0.71635481, -0.69691056,  0.03393306,
+         0.69735469, -0.71672395 , 0.00179464,
+         0.02306993,  0.02494898 , 0.9994225
+        
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site17_RSP80/rslidar_points"
+    transform: 
+      translation: 
+        x: -439.526
+        y: -179.563
+        z: -5.753
+      rotation: 
+        -0.93116046,  0.36459978, -0.00268297,
+        -0.36454281, -0.93110544, -0.01229604,
+        -0.00698126, -0.01047153 , 0.9999208
+        
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site19_RSP80/rslidar_points"
+    transform: 
+      translation: 
+        x: -482.233
+        y: -120.3345565795898
+        z: -4.887977600097656
+      rotation: 
+        8.35641608e-03,  9.99838757e-01, -1.58943709e-02,
+       -9.99964942e-01,  8.36385107e-03,  4.01358689e-04,
+        5.34232124e-04,  1.58904598e-02,  9.99873596e-01
+        
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site20_RSHELIOS/rslidar_points"
+    transform: 
+      translation: 
+        x: -539.861
+        y: -66.529
+        z: -4.332
+      rotation: 
+        0.95092704,  0.30939173,  0.00380934,
+       -0.30934196,  0.95089777, -0.0100488,
+       -0.00673131,  0.00837729 , 0.99994225
+        
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site22_RSHELIOS/rslidar_points"
+    transform: 
+      translation: 
+        x: -436.1391906738281
+        y: -28.018
+        z: -4.351
+      rotation: 
+        -0.35166852, 0.9361238, -0.00121975,
+        -0.9356775, -0.35154053, -0.03044455,
+        -0.02892866, -0.0095651,  0.99953571
+        
+---
+transforms: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 2052
+        nsecs:  12458571
+      frame_id: "map"
+    child_frame_id: "site25_RSP80/rslidar_points"
+    transform: 
+      translation: 
+        x: -297.244
+        y: -161.664
+        z: -6.922
+      rotation: 
+        0.77599946, -0.63064375,  0.01064403,
+        0.63070051,  0.77602107, -0.0028579,
+       -0.00645767,  0.00893092,  0.99993927
+        
+
