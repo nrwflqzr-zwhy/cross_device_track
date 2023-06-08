@@ -57,3 +57,11 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cross_device_tracking" TYPE FILE FILES "/home/zwhy/workspace/cross_device_tracking/src/cross_device_tracking/package.xml")
 endif()
 
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cross_device_tracking" TYPE PROGRAM FILES "/home/zwhy/workspace/cross_device_tracking/build/cross_device_tracking/catkin_generated/installspace/fusion_detection_results.py")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cross_device_tracking" TYPE PROGRAM FILES "/home/zwhy/workspace/cross_device_tracking/build/cross_device_tracking/catkin_generated/installspace/tracker.py")
+endif()
+

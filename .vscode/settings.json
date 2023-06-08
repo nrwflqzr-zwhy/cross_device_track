@@ -1,16 +1,9 @@
 {
     "python.autoComplete.extraPaths": [
         "/opt/ros/noetic/lib/python3/dist-packages",
-        "/home/zwhy/projects/AB3DMOT-master",
-        "/home/zwhy/projects/AB3DMOT-master/Xinshuo_PyToolbox",
-        "/home/zwhy/projects/AB3DMOT-master",
-        "/home/zwhy/projects/AB3DMOT-master/Xinshuo_PyToolbox"
+        "/home/zwhy/workspace/cross_device_tracking/devel/lib/python3/dist-packages"
     ],
     "python.analysis.extraPaths": [
-        "/opt/ros/noetic/lib/python3/dist-packages",
-        "/home/zwhy/projects/AB3DMOT-master",
-        "/home/zwhy/projects/AB3DMOT-master/Xinshuo_PyToolbox",
-        "/home/zwhy/projects/AB3DMOT-master",
-        "/home/zwhy/projects/AB3DMOT-master/Xinshuo_PyToolbox"
+        "/opt/ros/noetic/lib/python3/dist-packages"
     ]
 }
