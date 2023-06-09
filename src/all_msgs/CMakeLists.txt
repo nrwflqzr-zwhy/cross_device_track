@@ -8,6 +8,9 @@ project(all_msgs)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  cross_device_tracking
+  det_msgs_vis
+  detected_objects_visualizer
   roscpp
   rospy
   std_msgs

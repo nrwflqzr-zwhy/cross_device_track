@@ -58,6 +58,10 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cross_device_tracking" TYPE PROGRAM FILES "/home/zwhy/workspace/cross_device_tracking/build/cross_device_tracking/catkin_generated/installspace/myApproximateTimeSynchronizer.py")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cross_device_tracking" TYPE PROGRAM FILES "/home/zwhy/workspace/cross_device_tracking/build/cross_device_tracking/catkin_generated/installspace/fusion_detection_results.py")
 endif()
 

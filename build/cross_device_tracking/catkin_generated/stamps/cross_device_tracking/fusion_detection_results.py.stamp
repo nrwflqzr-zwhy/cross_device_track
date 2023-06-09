@@ -2,16 +2,23 @@
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 09:54:46
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-07 20:37:49
+LastEditTime: 2023-06-09 21:49:01
 FilePath: /cross_device_tracking/src/cross_device_tracking/scripts/fusion_detection_results.py
 Description: 
 '''
+import sys
+import os
+
+path = os.path.abspath(".")
+# 核心
+sys.path.insert(0, path + "/src/cross_device_tracking/scripts")
 import rospy
 import message_filters
 import numpy as np
 import math
 from all_msgs.msg import RsPerceptionMsg
 from all_msgs.msg import Objects
+from myApproximateTimeSynchronizer import MyApproximateTimeSynchronizer
 
 
 class MsgTrans(object):
@@ -63,8 +70,8 @@ class MsgTrans(object):
                                                       self.sub_type1)
         self.subscriber2 = message_filters.Subscriber(self.sub_topic2,
                                                       self.sub_type2)
-        ts = message_filters.TimeSynchronizer(
-            [self.subscriber1, self.subscriber2], 10)
+        ts = MyApproximateTimeSynchronizer(
+            [self.subscriber1, self.subscriber2], 10, 1, allow_headerless=True)
         ts.registerCallback(self.callback)
         self.publisher = rospy.Publisher(self.pub_topic,
                                          self.pub_type,
@@ -76,6 +83,8 @@ class MsgTrans(object):
         self.timestamp1 = msg_data1.lidarframe.timestamp.data
         self.obj_list2 = msg_data2.lidarframe.objects.objects
         self.timestamp2 = msg_data2.lidarframe.timestamp.data
+        print("lidar1时间戳:{0},lidar2时间戳:{1}".format(self.timestamp1,
+                                                   self.timestamp2))
         #得到的结果是Object[]，也就是Objects类型的
         self.obj = self.fusion_detection(det_list1=self.obj_list1,
                                          det_list2=self.obj_list2)
@@ -84,10 +93,10 @@ class MsgTrans(object):
         rsPerceptionMsg.lidarframe = msg_data1.lidarframe
         rsPerceptionMsg.lidarframe.objects.objects = self.obj  #将检测结果修改为融合后的部分，其余的部分与 lidar 1 保持一直
         #设备id应该是不需要了（只是为了保持数据的完整性能够发出去）
-        rsPerceptionMsg.device_id = 0
+        rsPerceptionMsg.device_id.data = 0
         self.publisher.publish(rsPerceptionMsg)
 
-    def fusion_detection(self, det_list1, det_list2, timestamp1, timestamp2):
+    def fusion_detection(self, det_list1, det_list2):
 
         # 第一步，将二者都变换到enu 坐标系
         det_list1 = self.toenu(det_list1, self.lidar_to_enu_16)
@@ -124,6 +133,7 @@ class MsgTrans(object):
             obj.coreinfo.center.x.data = new_point[0]
             obj.coreinfo.center.y.data = new_point[1]
             obj.coreinfo.center.z.data = new_point[2]
+        return list
 
     def distance(self, det_list1, det_list2):
         dist = []
@@ -139,7 +149,7 @@ class MsgTrans(object):
 
                 obj1_obj2_dist = math.sqrt(x_dist + y_dist + z_dist)
                 distobj1.append(obj1_obj2_dist)
-            dist.append[distobj1]
+            dist.append(distobj1)
         return dist
 
 

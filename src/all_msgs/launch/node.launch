@@ -1,0 +1,6 @@
+<launch>
+        <node pkg="cross_device_tracking" type="fusion_detection_results.py" name="fusion_detection_result" output="screen"/>
+        <node pkg="cross_device_tracking" type="tracker.py" name="tracker" output="screen"/>
+        <node pkg="det_msgs_vis" type="msgs_visual.py" name="msgs_visual" output="screen" />
+        <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="visualize_detected_objects" output="screen" />
+</launch>

@@ -138,6 +138,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/zwhy/workspace/cross_device_tracking/build/gtest/cmake_install.cmake")
   include("/home/zwhy/workspace/cross_device_tracking/build/all_msgs/cmake_install.cmake")
   include("/home/zwhy/workspace/cross_device_tracking/build/cross_device_tracking/cmake_install.cmake")
+  include("/home/zwhy/workspace/cross_device_tracking/build/det_msgs_vis/cmake_install.cmake")
+  include("/home/zwhy/workspace/cross_device_tracking/build/detected_objects_visualizer/cmake_install.cmake")
 
 endif()
 

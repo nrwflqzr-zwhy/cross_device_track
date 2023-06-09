@@ -1,0 +1,8 @@
+prefix=/home/zwhy/workspace/cross_device_tracking/install
+
+Name: det_msgs_vis
+Description: Description of det_msgs_vis
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: geometry_msgs message_runtime rosbag roscpp rospy sensor_msgs std_msgs

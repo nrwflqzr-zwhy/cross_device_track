@@ -2,7 +2,7 @@
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 16:42:00
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-05-28 14:38:40
+LastEditTime: 2023-06-09 22:39:25
 FilePath: /cross_device_tracking/src/cross_device_tracking/scripts/tracker.py
 Description: 
 '''
@@ -28,7 +28,7 @@ class Track(object):
     def __init__(self,
                  sub_topic='/fusion_detection',
                  sub_type=RsPerceptionMsg,
-                 pub_topic='/objects',
+                 pub_topic='/track_result',
                  pub_type=RsPerceptionMsg):
         self.sub_topic = sub_topic
         self.sub_type = sub_type
@@ -40,6 +40,15 @@ class Track(object):
         self.last_time_stamp = 0  # 上一帧的时间
         self.label = []  # 上一帧的类别
         self.ct = []  # 上一帧的位置
+        self.num_2_label = {
+            0: "",
+            1: "people",
+            2: "cyclist",
+            3: "car",
+            4: "bus",
+            5: "truck",
+            6: "unkonw"
+        }
 
     def run(self):
         self.subscriber = rospy.Subscriber(self.sub_topic, self.sub_type,
@@ -75,7 +84,10 @@ class Track(object):
             return []
         else:
             for i in range(len(det_list)):
+                print("det_list[{0}].coreinfo.type.data = {1}".format(
+                    i, det_list[i].coreinfo.type.data))
                 type = self.num_2_label.get(det_list[i].coreinfo.type.data)
+                print("type = {0}".format(type))
                 if type not in TRACKING_NAMES:
                     # 这里直接删除是否会影响 i 的取值（解决方法应该是先记录索引，跳出for之后再删除）
                     del det_list[i]
@@ -86,9 +98,11 @@ class Track(object):
                 ])
                 #计算两帧之间运动的距离  v * t
                 tracking = np.array([
-                    det_list[i].velocity.x.data, det_list[i].velocity.y.data
+                    det_list[i].coreinfo.velocity.x.data,
+                    det_list[i].coreinfo.velocity.y.data
                 ]) * -1 * time_lag
-                label_preds = TRACKING_NAMES.index(type)
+                label_preds = type
+                print("label_pred = {0}".format(label_preds))
                 tempCt.append(ct)
                 tempTracking.append(tracking)
                 tempLabel.append(label_preds)
@@ -98,6 +112,8 @@ class Track(object):
         dets = np.array(
             tempCt[i] + tempTracking[i]
             for i in range(len(tempCt)))  # 从当前帧减掉 v * t 的时间得到预测的上一帧坐标
+        for label in tempLabel:
+            print("label = {0}".format(label))
         max_diff = np.array([CLS_VELOCITY_ERROR[label] for label in tempLabel],
                             np.float32)
         tracks = np.array(self.ct, np.float32)

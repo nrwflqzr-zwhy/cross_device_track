@@ -7,3 +7,5 @@
 subdirs("gtest")
 subdirs("all_msgs")
 subdirs("cross_device_tracking")
+subdirs("det_msgs_vis")
+subdirs("detected_objects_visualizer")

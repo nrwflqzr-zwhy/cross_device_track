@@ -2,101 +2,23 @@
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 09:54:46
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-08 16:45:16
+LastEditTime: 2023-06-09 21:49:01
 FilePath: /cross_device_tracking/src/cross_device_tracking/scripts/fusion_detection_results.py
 Description: 
 '''
+import sys
+import os
+
+path = os.path.abspath(".")
+# 核心
+sys.path.insert(0, path + "/src/cross_device_tracking/scripts")
 import rospy
 import message_filters
 import numpy as np
 import math
 from all_msgs.msg import RsPerceptionMsg
 from all_msgs.msg import Objects
-from message_filters import ApproximateTimeSynchronizer
-
-
-class MyApproximateTimeSynchronizer(ApproximateTimeSynchronizer):
-
-    def __init__(self,
-                 fs,
-                 queue_size,
-                 slop,
-                 allow_headerless=False,
-                 reset=False):
-        super().__init__(fs, queue_size, slop, allow_headerless, reset)
-
-    def add(self, msg, my_queue, my_queue_index=None):
-        if not hasattr(msg, 'header') or not hasattr(msg.header, 'stamp'):
-            if not self.allow_headerless:
-                pass
-                return
-            stamp = rospy.Time.now()
-        else:
-            stamp = msg.header.stamp
-
-        self.lock.acquire()
-        now = rospy.Time.now()
-        is_simtime = not rospy.rostime.is_wallclock()
-        if is_simtime and self.enable_reset and my_queue_index is not None:
-            if now < self.latest_stamps[my_queue_index]:
-                rospy.logdebug(
-                    "Detected jump back in time. Clearing message filter queue"
-                )
-                my_queue.clear()
-            self.latest_stamps[my_queue_index] = now
-        my_queue[stamp] = msg
-
-        # clear all buffers if jump backwards in time is detected
-        now = rospy.Time.now()
-        if now < self.last_added:
-            rospy.loginfo(
-                "ApproximateTimeSynchronizer: Detected jump back in time. Clearing buffer."
-            )
-            for q in self.queues:
-                q.clear()
-        self.last_added = now
-
-        while len(my_queue) > self.queue_size:
-            del my_queue[min(my_queue)]
-
-        if is_simtime and self.enable_reset:
-            if max(self.latest_stamps) != now:
-                self.lock.release()
-                return
-        # self.queues = [topic_0 {stamp: msg}, topic_1 {stamp: msg}, ...]
-        if my_queue_index is None:
-            search_queues = self.queues
-        else:
-            search_queues = self.queues[:my_queue_index] + \
-                self.queues[my_queue_index+1:]
-        # sort and leave only reasonable stamps for synchronization
-        stamps = []
-        for queue in search_queues:
-            topic_stamps = []
-            for s in queue:
-                stamp_delta = abs(s - stamp)
-                if stamp_delta > self.slop:
-                    continue  # far over the slop
-                topic_stamps.append((s, stamp_delta))
-            if not topic_stamps:
-                self.lock.release()
-                return
-            topic_stamps = sorted(topic_stamps, key=lambda x: x[1])
-            stamps.append(topic_stamps)
-        for vv in itertools.product(*[next(iter(zip(*s))) for s in stamps]):
-            vv = list(vv)
-            # insert the new message
-            if my_queue_index is not None:
-                vv.insert(my_queue_index, stamp)
-            qt = list(zip(self.queues, vv))
-            if (((max(vv) - min(vv)) < self.slop)
-                    and (len([1 for q, t in qt if t not in q]) == 0)):
-                msgs = [q[t] for q, t in qt]
-                self.signalMessage(*msgs)
-                for q, t in qt:
-                    del q[t]
-                break  # fast finish after the synchronization
-        self.lock.release()
+from myApproximateTimeSynchronizer import MyApproximateTimeSynchronizer
 
 
 class MsgTrans(object):
@@ -148,8 +70,8 @@ class MsgTrans(object):
                                                       self.sub_type1)
         self.subscriber2 = message_filters.Subscriber(self.sub_topic2,
                                                       self.sub_type2)
-        ts = message_filters.TimeSynchronizer(
-            [self.subscriber1, self.subscriber2], 10)
+        ts = MyApproximateTimeSynchronizer(
+            [self.subscriber1, self.subscriber2], 10, 1, allow_headerless=True)
         ts.registerCallback(self.callback)
         self.publisher = rospy.Publisher(self.pub_topic,
                                          self.pub_type,
@@ -161,6 +83,8 @@ class MsgTrans(object):
         self.timestamp1 = msg_data1.lidarframe.timestamp.data
         self.obj_list2 = msg_data2.lidarframe.objects.objects
         self.timestamp2 = msg_data2.lidarframe.timestamp.data
+        print("lidar1时间戳:{0},lidar2时间戳:{1}".format(self.timestamp1,
+                                                   self.timestamp2))
         #得到的结果是Object[]，也就是Objects类型的
         self.obj = self.fusion_detection(det_list1=self.obj_list1,
                                          det_list2=self.obj_list2)
@@ -169,10 +93,10 @@ class MsgTrans(object):
         rsPerceptionMsg.lidarframe = msg_data1.lidarframe
         rsPerceptionMsg.lidarframe.objects.objects = self.obj  #将检测结果修改为融合后的部分，其余的部分与 lidar 1 保持一直
         #设备id应该是不需要了（只是为了保持数据的完整性能够发出去）
-        rsPerceptionMsg.device_id = 0
+        rsPerceptionMsg.device_id.data = 0
         self.publisher.publish(rsPerceptionMsg)
 
-    def fusion_detection(self, det_list1, det_list2, timestamp1, timestamp2):
+    def fusion_detection(self, det_list1, det_list2):
 
         # 第一步，将二者都变换到enu 坐标系
         det_list1 = self.toenu(det_list1, self.lidar_to_enu_16)
@@ -209,6 +133,7 @@ class MsgTrans(object):
             obj.coreinfo.center.x.data = new_point[0]
             obj.coreinfo.center.y.data = new_point[1]
             obj.coreinfo.center.z.data = new_point[2]
+        return list
 
     def distance(self, det_list1, det_list2):
         dist = []
@@ -224,7 +149,7 @@ class MsgTrans(object):
 
                 obj1_obj2_dist = math.sqrt(x_dist + y_dist + z_dist)
                 distobj1.append(obj1_obj2_dist)
-            dist.append[distobj1]
+            dist.append(distobj1)
         return dist
 
 
