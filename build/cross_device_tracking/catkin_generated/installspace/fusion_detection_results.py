@@ -1,17 +1,22 @@
+#!/usr/bin/env python3
 '''
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 09:54:46
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-09 21:49:01
-FilePath: /cross_device_tracking/src/cross_device_tracking/scripts/fusion_detection_results.py
+LastEditTime: 2023-06-11 14:45:22
+FilePath: /cross_device_track/src/cross_device_tracking/scripts/fusion_detection_results.py
 Description: 
 '''
 import sys
 import os
 
-path = os.path.abspath(".")
+path = "/home/zwhy/workspace/cross_device_track"
+print("path = {0}".format(path))
 # 核心
 sys.path.insert(0, path + "/src/cross_device_tracking/scripts")
+
+print("path = {0}".format(path))
+
 import rospy
 import message_filters
 import numpy as np
@@ -71,7 +76,10 @@ class MsgTrans(object):
         self.subscriber2 = message_filters.Subscriber(self.sub_topic2,
                                                       self.sub_type2)
         ts = MyApproximateTimeSynchronizer(
-            [self.subscriber1, self.subscriber2], 10, 1, allow_headerless=True)
+            [self.subscriber1, self.subscriber2],
+            10,
+            10,
+            allow_headerless=True)
         ts.registerCallback(self.callback)
         self.publisher = rospy.Publisher(self.pub_topic,
                                          self.pub_type,
@@ -88,6 +96,10 @@ class MsgTrans(object):
         #得到的结果是Object[]，也就是Objects类型的
         self.obj = self.fusion_detection(det_list1=self.obj_list1,
                                          det_list2=self.obj_list2)
+        # for obj in self.obj:
+        #     print("x = {0}, y = {1}, z = {2}".format(
+        #         obj.coreinfo.center.x.data, obj.coreinfo.center.y.data,
+        #         obj.coreinfo.center.z.data))
         #然后直接将融合后的数据发送出去（先保持原始的格式试试）
         rsPerceptionMsg = RsPerceptionMsg()
         rsPerceptionMsg.lidarframe = msg_data1.lidarframe

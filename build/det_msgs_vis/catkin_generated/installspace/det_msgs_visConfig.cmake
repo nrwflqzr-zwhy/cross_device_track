@@ -67,14 +67,14 @@ set(det_msgs_vis_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(det_msgs_vis_SOURCE_PREFIX /home/zwhy/workspace/cross_device_tracking/src/det_msgs_vis)
-  set(det_msgs_vis_DEVEL_PREFIX /home/zwhy/workspace/cross_device_tracking/devel)
+  set(det_msgs_vis_SOURCE_PREFIX /home/zwhy/workspace/cross_device_track/src/det_msgs_vis)
+  set(det_msgs_vis_DEVEL_PREFIX /home/zwhy/workspace/cross_device_track/devel)
   set(det_msgs_vis_INSTALL_PREFIX "")
   set(det_msgs_vis_PREFIX ${det_msgs_vis_DEVEL_PREFIX})
 else()
   set(det_msgs_vis_SOURCE_PREFIX "")
   set(det_msgs_vis_DEVEL_PREFIX "")
-  set(det_msgs_vis_INSTALL_PREFIX /home/zwhy/workspace/cross_device_tracking/install)
+  set(det_msgs_vis_INSTALL_PREFIX /home/zwhy/workspace/cross_device_track/install)
   set(det_msgs_vis_PREFIX ${det_msgs_vis_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/zwhy/workspace/cross_device_tracking/install/lib;/home/zwhy/workspace/cross_device_tracking/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/zwhy/workspace/cross_device_track/install/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

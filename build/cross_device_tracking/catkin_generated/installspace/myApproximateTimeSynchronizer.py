@@ -1,9 +1,10 @@
+#!/usr/bin/env python3
 '''
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-06-09 16:55:14
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-09 21:16:15
-FilePath: /cross_device_tracking/src/cross_device_tracking/scripts/myApproximateTimeSynchronizer.py
+LastEditTime: 2023-06-11 14:02:05
+FilePath: /cross_device_track/src/cross_device_tracking/scripts/myApproximateTimeSynchronizer.py
 Description: 
 '''
 import itertools
@@ -25,8 +26,8 @@ class MyApproximateTimeSynchronizer(ApproximateTimeSynchronizer):
     def add(self, msg, my_queue, my_queue_index=None):
         if not hasattr(msg, 'header') or not hasattr(msg.header, 'stamp'):
             if not self.allow_headerless:
-                print("赋值给当前时间戳 stamp = {0}".format(msg.lidarframe.timestamp))
-                stamp = msg.lidarframe.timestamp
+                # print("赋值给当前时间戳 stamp = {0}".format(msg.lidarframe.timestamp))
+                stamp = rospy.Time.from_sec(msg.lidarframe.timestamp.data)
             stamp = rospy.Time.from_sec(msg.lidarframe.timestamp.data)
         else:
             stamp = msg.header.stamp

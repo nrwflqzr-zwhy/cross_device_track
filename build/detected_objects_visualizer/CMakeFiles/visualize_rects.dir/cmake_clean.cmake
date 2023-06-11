@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/zwhy/workspace/cross_device_tracking/devel/lib/detected_objects_visualizer/visualize_rects"
-  "/home/zwhy/workspace/cross_device_tracking/devel/lib/detected_objects_visualizer/visualize_rects.pdb"
+  "/home/zwhy/workspace/cross_device_track/devel/lib/detected_objects_visualizer/visualize_rects"
+  "/home/zwhy/workspace/cross_device_track/devel/lib/detected_objects_visualizer/visualize_rects.pdb"
   "CMakeFiles/visualize_rects.dir/src/visualize_rects.cpp.o"
   "CMakeFiles/visualize_rects.dir/src/visualize_rects.cpp.o.d"
   "CMakeFiles/visualize_rects.dir/src/visualize_rects_main.cpp.o"

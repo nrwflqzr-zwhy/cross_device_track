@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "".split(';') if "" != "" else []
 PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "cross_device_tracking"
-PROJECT_SPACE_DIR = "/home/zwhy/workspace/cross_device_tracking/devel"
+PROJECT_SPACE_DIR = "/home/zwhy/workspace/cross_device_track/devel"
 PROJECT_VERSION = "0.0.0"

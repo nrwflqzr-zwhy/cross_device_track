@@ -53,10 +53,10 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/zwhy/workspace/cross_device_tracking/src
+CMAKE_SOURCE_DIR = /home/zwhy/workspace/cross_device_track/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/zwhy/workspace/cross_device_tracking/build
+CMAKE_BINARY_DIR = /home/zwhy/workspace/cross_device_track/build
 
 # Utility rule file for run_tests.
 
@@ -78,6 +78,6 @@ CMakeFiles/run_tests.dir/clean:
 .PHONY : CMakeFiles/run_tests.dir/clean
 
 CMakeFiles/run_tests.dir/depend:
-	cd /home/zwhy/workspace/cross_device_tracking/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/zwhy/workspace/cross_device_tracking/src /home/zwhy/workspace/cross_device_tracking/src /home/zwhy/workspace/cross_device_tracking/build /home/zwhy/workspace/cross_device_tracking/build /home/zwhy/workspace/cross_device_tracking/build/CMakeFiles/run_tests.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/zwhy/workspace/cross_device_track/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/zwhy/workspace/cross_device_track/src /home/zwhy/workspace/cross_device_track/src /home/zwhy/workspace/cross_device_track/build /home/zwhy/workspace/cross_device_track/build /home/zwhy/workspace/cross_device_track/build/CMakeFiles/run_tests.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/run_tests.dir/depend
 

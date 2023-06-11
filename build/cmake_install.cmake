@@ -1,8 +1,8 @@
-# Install script for directory: /home/zwhy/workspace/cross_device_tracking/src
+# Install script for directory: /home/zwhy/workspace/cross_device_track/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/zwhy/workspace/cross_device_tracking/install")
+  set(CMAKE_INSTALL_PREFIX "/home/zwhy/workspace/cross_device_track/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "")
+    set(CMAKE_INSTALL_CONFIG_NAME "RelWithDebInfo")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -54,92 +54,92 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/zwhy/workspace/cross_device_tracking/install/_setup_util.py")
+   "/home/zwhy/workspace/cross_device_track/install/_setup_util.py")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_tracking/install" TYPE PROGRAM FILES "/home/zwhy/workspace/cross_device_tracking/build/catkin_generated/installspace/_setup_util.py")
+  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_track/install" TYPE PROGRAM FILES "/home/zwhy/workspace/cross_device_track/build/catkin_generated/installspace/_setup_util.py")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/zwhy/workspace/cross_device_tracking/install/env.sh")
+   "/home/zwhy/workspace/cross_device_track/install/env.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_tracking/install" TYPE PROGRAM FILES "/home/zwhy/workspace/cross_device_tracking/build/catkin_generated/installspace/env.sh")
+  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_track/install" TYPE PROGRAM FILES "/home/zwhy/workspace/cross_device_track/build/catkin_generated/installspace/env.sh")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/zwhy/workspace/cross_device_tracking/install/setup.bash;/home/zwhy/workspace/cross_device_tracking/install/local_setup.bash")
+   "/home/zwhy/workspace/cross_device_track/install/setup.bash;/home/zwhy/workspace/cross_device_track/install/local_setup.bash")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_tracking/install" TYPE FILE FILES
-    "/home/zwhy/workspace/cross_device_tracking/build/catkin_generated/installspace/setup.bash"
-    "/home/zwhy/workspace/cross_device_tracking/build/catkin_generated/installspace/local_setup.bash"
+  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_track/install" TYPE FILE FILES
+    "/home/zwhy/workspace/cross_device_track/build/catkin_generated/installspace/setup.bash"
+    "/home/zwhy/workspace/cross_device_track/build/catkin_generated/installspace/local_setup.bash"
     )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/zwhy/workspace/cross_device_tracking/install/setup.sh;/home/zwhy/workspace/cross_device_tracking/install/local_setup.sh")
+   "/home/zwhy/workspace/cross_device_track/install/setup.sh;/home/zwhy/workspace/cross_device_track/install/local_setup.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_tracking/install" TYPE FILE FILES
-    "/home/zwhy/workspace/cross_device_tracking/build/catkin_generated/installspace/setup.sh"
-    "/home/zwhy/workspace/cross_device_tracking/build/catkin_generated/installspace/local_setup.sh"
+  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_track/install" TYPE FILE FILES
+    "/home/zwhy/workspace/cross_device_track/build/catkin_generated/installspace/setup.sh"
+    "/home/zwhy/workspace/cross_device_track/build/catkin_generated/installspace/local_setup.sh"
     )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/zwhy/workspace/cross_device_tracking/install/setup.zsh;/home/zwhy/workspace/cross_device_tracking/install/local_setup.zsh")
+   "/home/zwhy/workspace/cross_device_track/install/setup.zsh;/home/zwhy/workspace/cross_device_track/install/local_setup.zsh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_tracking/install" TYPE FILE FILES
-    "/home/zwhy/workspace/cross_device_tracking/build/catkin_generated/installspace/setup.zsh"
-    "/home/zwhy/workspace/cross_device_tracking/build/catkin_generated/installspace/local_setup.zsh"
+  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_track/install" TYPE FILE FILES
+    "/home/zwhy/workspace/cross_device_track/build/catkin_generated/installspace/setup.zsh"
+    "/home/zwhy/workspace/cross_device_track/build/catkin_generated/installspace/local_setup.zsh"
     )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/zwhy/workspace/cross_device_tracking/install/.rosinstall")
+   "/home/zwhy/workspace/cross_device_track/install/.rosinstall")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_tracking/install" TYPE FILE FILES "/home/zwhy/workspace/cross_device_tracking/build/catkin_generated/installspace/.rosinstall")
+  file(INSTALL DESTINATION "/home/zwhy/workspace/cross_device_track/install" TYPE FILE FILES "/home/zwhy/workspace/cross_device_track/build/catkin_generated/installspace/.rosinstall")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/zwhy/workspace/cross_device_tracking/build/gtest/cmake_install.cmake")
-  include("/home/zwhy/workspace/cross_device_tracking/build/all_msgs/cmake_install.cmake")
-  include("/home/zwhy/workspace/cross_device_tracking/build/cross_device_tracking/cmake_install.cmake")
-  include("/home/zwhy/workspace/cross_device_tracking/build/det_msgs_vis/cmake_install.cmake")
-  include("/home/zwhy/workspace/cross_device_tracking/build/detected_objects_visualizer/cmake_install.cmake")
+  include("/home/zwhy/workspace/cross_device_track/build/gtest/cmake_install.cmake")
+  include("/home/zwhy/workspace/cross_device_track/build/all_msgs/cmake_install.cmake")
+  include("/home/zwhy/workspace/cross_device_track/build/cross_device_tracking/cmake_install.cmake")
+  include("/home/zwhy/workspace/cross_device_track/build/det_msgs_vis/cmake_install.cmake")
+  include("/home/zwhy/workspace/cross_device_track/build/detected_objects_visualizer/cmake_install.cmake")
 
 endif()
 
@@ -151,5 +151,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/zwhy/workspace/cross_device_tracking/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/zwhy/workspace/cross_device_track/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

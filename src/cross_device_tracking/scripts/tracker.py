@@ -1,11 +1,13 @@
+#! /usr/bin/env python
 '''
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 16:42:00
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-09 22:39:25
-FilePath: /cross_device_tracking/src/cross_device_tracking/scripts/tracker.py
+LastEditTime: 2023-06-11 14:37:01
+FilePath: /cross_device_track/src/cross_device_tracking/scripts/tracker.py
 Description: 
 '''
+
 import rospy
 import numpy as np
 import copy
@@ -47,7 +49,7 @@ class Track(object):
             3: "car",
             4: "bus",
             5: "truck",
-            6: "unkonw"
+            6: "unknow"
         }
 
     def run(self):
@@ -83,6 +85,7 @@ class Track(object):
             self.tracks = []
             return []
         else:
+            del_index = []
             for i in range(len(det_list)):
                 print("det_list[{0}].coreinfo.type.data = {1}".format(
                     i, det_list[i].coreinfo.type.data))
@@ -90,7 +93,7 @@ class Track(object):
                 print("type = {0}".format(type))
                 if type not in TRACKING_NAMES:
                     # 这里直接删除是否会影响 i 的取值（解决方法应该是先记录索引，跳出for之后再删除）
-                    del det_list[i]
+                    del_index.append(i)
                     continue
                 ct = np.array([
                     det_list[i].coreinfo.center.x.data,
@@ -102,18 +105,30 @@ class Track(object):
                     det_list[i].coreinfo.velocity.y.data
                 ]) * -1 * time_lag
                 label_preds = type
-                print("label_pred = {0}".format(label_preds))
+                # print("label_pred = {0}".format(label_preds))
                 tempCt.append(ct)
                 tempTracking.append(tracking)
                 tempLabel.append(label_preds)
-
+            for i in del_index:
+                del det_list[i]
+        # for ct in tempCt:
+        #     print("x = {0}, y = {1}".format(ct[0], ct[1]))
+        # print()
+        # for t in tempTracking:
+        #     print("x = {0}, y = {1}".format(t[0], t[1]))
+        # print()
+        # for label in tempLabel:
+        #     print("label = {0}".format(label))
         N = len(det_list)  # 当前帧物体的个数
         M = len(self.tracks)  # 上一帧物体的个数
+        # 从当前帧减掉 v * t 的时间得到预测的上一帧坐标
         dets = np.array(
-            tempCt[i] + tempTracking[i]
-            for i in range(len(tempCt)))  # 从当前帧减掉 v * t 的时间得到预测的上一帧坐标
-        for label in tempLabel:
-            print("label = {0}".format(label))
+            [tempCt[i] + tempTracking[i] for i in range(len(tempCt))])
+        print()
+        # for det in dets:
+        #     print("x = {0}, y = {1}".format(det[0], det[1]))
+        # for label in tempLabel:
+        #     print("label = {0}".format(label))
         max_diff = np.array([CLS_VELOCITY_ERROR[label] for label in tempLabel],
                             np.float32)
         tracks = np.array(self.ct, np.float32)
@@ -129,9 +144,9 @@ class Track(object):
             dist = dist + invalid * 1e18
             matched_indices = self.greedy_assignment(copy.deepcopy(dist))
         else:  # first few frame
-            assert M == 0
             matched_indices = np.array([], np.int32).reshape(-1, 2)
         # 当前帧没有匹配上的index
+        # print(dets)
         unmatched_dets = [
             d for d in range(dets.shape[0]) if not (d in matched_indices[:, 0])
         ]
@@ -146,8 +161,8 @@ class Track(object):
         ret = []
         for m in matches:
             track = det_list[m[0]]
-            track.coreinfo.tracking_id.data = self.tracks[
-                m[1]].coreinfo.tracking_id.data  # tracking_id 保持
+            track.coreinfo.trakcer_id.data = self.tracks[
+                m[1]].coreinfo.trakcer_id.data  # tracking_id 保持
             # if track.tracking_id == 10:
             #    print("物体的位置x:{0},y:{1}".format(track.ct[0],track.ct[1]))
             #    print("物体的速度x:{0},y:{1}".format(det.velocity.x.data,det.velocity.y.data))
@@ -157,7 +172,7 @@ class Track(object):
         for i in unmatched_dets:
             track = det_list[i]
             self.id_count += 1
-            track.coreinfo.tracking_id.data = self.id_count  # 给一个新的 tracking_id
+            track.coreinfo.trakcer_id.data = self.id_count  # 给一个新的 tracking_id
             # if track.tracking_id == 10:
             #    print("物体的位置x:{0},y:{1}".format(track.ct[0],track.ct[1]))
             #    print("物体的速度x:{0},y:{1}".format(det.velocity.x.data,det.velocity.y.data))
@@ -191,6 +206,10 @@ class Track(object):
 
     def callback(self, msg_data):
         det_list = msg_data.lidarframe.objects.objects
+        # for obj in det_list:
+        #     print("x = {0}, y = {1}, z = {2}".format(
+        #         obj.coreinfo.center.x.data, obj.coreinfo.center.y.data,
+        #         obj.coreinfo.center.z.data))
         timestamp = msg_data.lidarframe.timestamp.data
         if (self.first_frame):
             self.first_frame = False

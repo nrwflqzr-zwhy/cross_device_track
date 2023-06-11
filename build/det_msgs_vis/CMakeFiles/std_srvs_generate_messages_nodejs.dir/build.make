@@ -53,10 +53,10 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/zwhy/workspace/cross_device_tracking/src
+CMAKE_SOURCE_DIR = /home/zwhy/workspace/cross_device_track/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/zwhy/workspace/cross_device_tracking/build
+CMAKE_BINARY_DIR = /home/zwhy/workspace/cross_device_track/build
 
 # Utility rule file for std_srvs_generate_messages_nodejs.
 
@@ -74,10 +74,10 @@ det_msgs_vis/CMakeFiles/std_srvs_generate_messages_nodejs.dir/build: std_srvs_ge
 .PHONY : det_msgs_vis/CMakeFiles/std_srvs_generate_messages_nodejs.dir/build
 
 det_msgs_vis/CMakeFiles/std_srvs_generate_messages_nodejs.dir/clean:
-	cd /home/zwhy/workspace/cross_device_tracking/build/det_msgs_vis && $(CMAKE_COMMAND) -P CMakeFiles/std_srvs_generate_messages_nodejs.dir/cmake_clean.cmake
+	cd /home/zwhy/workspace/cross_device_track/build/det_msgs_vis && $(CMAKE_COMMAND) -P CMakeFiles/std_srvs_generate_messages_nodejs.dir/cmake_clean.cmake
 .PHONY : det_msgs_vis/CMakeFiles/std_srvs_generate_messages_nodejs.dir/clean
 
 det_msgs_vis/CMakeFiles/std_srvs_generate_messages_nodejs.dir/depend:
-	cd /home/zwhy/workspace/cross_device_tracking/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/zwhy/workspace/cross_device_tracking/src /home/zwhy/workspace/cross_device_tracking/src/det_msgs_vis /home/zwhy/workspace/cross_device_tracking/build /home/zwhy/workspace/cross_device_tracking/build/det_msgs_vis /home/zwhy/workspace/cross_device_tracking/build/det_msgs_vis/CMakeFiles/std_srvs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/zwhy/workspace/cross_device_track/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/zwhy/workspace/cross_device_track/src /home/zwhy/workspace/cross_device_track/src/det_msgs_vis /home/zwhy/workspace/cross_device_track/build /home/zwhy/workspace/cross_device_track/build/det_msgs_vis /home/zwhy/workspace/cross_device_track/build/det_msgs_vis/CMakeFiles/std_srvs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : det_msgs_vis/CMakeFiles/std_srvs_generate_messages_nodejs.dir/depend
 

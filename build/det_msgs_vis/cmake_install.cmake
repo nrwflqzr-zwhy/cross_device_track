@@ -1,8 +1,8 @@
-# Install script for directory: /home/zwhy/workspace/cross_device_tracking/src/det_msgs_vis
+# Install script for directory: /home/zwhy/workspace/cross_device_track/src/det_msgs_vis
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/zwhy/workspace/cross_device_tracking/install")
+  set(CMAKE_INSTALL_PREFIX "/home/zwhy/workspace/cross_device_track/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "")
+    set(CMAKE_INSTALL_CONFIG_NAME "RelWithDebInfo")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -43,21 +43,21 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/zwhy/workspace/cross_device_tracking/build/det_msgs_vis/catkin_generated/installspace/det_msgs_vis.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/zwhy/workspace/cross_device_track/build/det_msgs_vis/catkin_generated/installspace/det_msgs_vis.pc")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/det_msgs_vis/cmake" TYPE FILE FILES
-    "/home/zwhy/workspace/cross_device_tracking/build/det_msgs_vis/catkin_generated/installspace/det_msgs_visConfig.cmake"
-    "/home/zwhy/workspace/cross_device_tracking/build/det_msgs_vis/catkin_generated/installspace/det_msgs_visConfig-version.cmake"
+    "/home/zwhy/workspace/cross_device_track/build/det_msgs_vis/catkin_generated/installspace/det_msgs_visConfig.cmake"
+    "/home/zwhy/workspace/cross_device_track/build/det_msgs_vis/catkin_generated/installspace/det_msgs_visConfig-version.cmake"
     )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/det_msgs_vis" TYPE FILE FILES "/home/zwhy/workspace/cross_device_tracking/src/det_msgs_vis/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/det_msgs_vis" TYPE FILE FILES "/home/zwhy/workspace/cross_device_track/src/det_msgs_vis/package.xml")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/det_msgs_vis" TYPE PROGRAM FILES "/home/zwhy/workspace/cross_device_tracking/build/det_msgs_vis/catkin_generated/installspace/msgs_visual.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/det_msgs_vis" TYPE PROGRAM FILES "/home/zwhy/workspace/cross_device_track/build/det_msgs_vis/catkin_generated/installspace/msgs_visual.py")
 endif()
 

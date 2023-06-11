@@ -1,4 +1,4 @@
-prefix=/home/zwhy/workspace/cross_device_tracking/devel
+prefix=/home/zwhy/workspace/cross_device_track/devel
 
 Name: det_msgs_vis
 Description: Description of det_msgs_vis

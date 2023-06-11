@@ -1,8 +1,8 @@
-prefix=/home/zwhy/workspace/cross_device_tracking/devel
+prefix=/home/zwhy/workspace/cross_device_track/devel
 
 Name: all_msgs
 Description: Description of all_msgs
 Version: 0.0.0
-Cflags: -I/home/zwhy/workspace/cross_device_tracking/devel/include
+Cflags: -I/home/zwhy/workspace/cross_device_track/devel/include
 Libs: -L${prefix}/lib 
 Requires: roscpp rospy std_msgs

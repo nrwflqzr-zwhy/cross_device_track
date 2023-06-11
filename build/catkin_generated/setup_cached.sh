@@ -7,4 +7,10 @@
 # new environment variables
 
 # modified environment variables
-export PWD='/home/zwhy/workspace/cross_device_tracking/build'
+export CMAKE_PREFIX_PATH="/home/zwhy/workspace/cross_device_track/devel:$CMAKE_PREFIX_PATH"
+export LD_LIBRARY_PATH="/home/zwhy/workspace/cross_device_track/devel/lib:$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="/home/zwhy/workspace/cross_device_track/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PWD='/home/zwhy/workspace/cross_device_track/build'
+export PYTHONPATH="/home/zwhy/workspace/cross_device_track/devel/lib/python3/dist-packages:$PYTHONPATH"
+export ROSLISP_PACKAGE_DIRECTORIES='/home/zwhy/workspace/cross_device_track/devel/share/common-lisp'
+export ROS_PACKAGE_PATH="/home/zwhy/workspace/cross_device_track/src:$ROS_PACKAGE_PATH"

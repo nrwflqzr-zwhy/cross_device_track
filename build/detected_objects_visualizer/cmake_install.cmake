@@ -1,8 +1,8 @@
-# Install script for directory: /home/zwhy/workspace/cross_device_tracking/src/detected_objects_visualizer
+# Install script for directory: /home/zwhy/workspace/cross_device_track/src/detected_objects_visualizer
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/zwhy/workspace/cross_device_tracking/install")
+  set(CMAKE_INSTALL_PREFIX "/home/zwhy/workspace/cross_device_track/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "")
+    set(CMAKE_INSTALL_CONFIG_NAME "RelWithDebInfo")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -43,18 +43,18 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/zwhy/workspace/cross_device_tracking/build/detected_objects_visualizer/catkin_generated/installspace/detected_objects_visualizer.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/zwhy/workspace/cross_device_track/build/detected_objects_visualizer/catkin_generated/installspace/detected_objects_visualizer.pc")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/detected_objects_visualizer/cmake" TYPE FILE FILES
-    "/home/zwhy/workspace/cross_device_tracking/build/detected_objects_visualizer/catkin_generated/installspace/detected_objects_visualizerConfig.cmake"
-    "/home/zwhy/workspace/cross_device_tracking/build/detected_objects_visualizer/catkin_generated/installspace/detected_objects_visualizerConfig-version.cmake"
+    "/home/zwhy/workspace/cross_device_track/build/detected_objects_visualizer/catkin_generated/installspace/detected_objects_visualizerConfig.cmake"
+    "/home/zwhy/workspace/cross_device_track/build/detected_objects_visualizer/catkin_generated/installspace/detected_objects_visualizerConfig-version.cmake"
     )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/detected_objects_visualizer" TYPE FILE FILES "/home/zwhy/workspace/cross_device_tracking/src/detected_objects_visualizer/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/detected_objects_visualizer" TYPE FILE FILES "/home/zwhy/workspace/cross_device_track/src/detected_objects_visualizer/package.xml")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -64,7 +64,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/detected_objects_visualizer/visualize_detected_objects"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/detected_objects_visualizer" TYPE EXECUTABLE FILES "/home/zwhy/workspace/cross_device_tracking/devel/lib/detected_objects_visualizer/visualize_detected_objects")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/detected_objects_visualizer" TYPE EXECUTABLE FILES "/home/zwhy/workspace/cross_device_track/devel/lib/detected_objects_visualizer/visualize_detected_objects")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/detected_objects_visualizer/visualize_detected_objects" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/detected_objects_visualizer/visualize_detected_objects")
     file(RPATH_CHANGE
@@ -84,7 +84,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/detected_objects_visualizer/visualize_rects"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/detected_objects_visualizer" TYPE EXECUTABLE FILES "/home/zwhy/workspace/cross_device_tracking/devel/lib/detected_objects_visualizer/visualize_rects")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/detected_objects_visualizer" TYPE EXECUTABLE FILES "/home/zwhy/workspace/cross_device_track/devel/lib/detected_objects_visualizer/visualize_rects")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/detected_objects_visualizer/visualize_rects" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/detected_objects_visualizer/visualize_rects")
     file(RPATH_CHANGE
@@ -98,6 +98,6 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/detected_objects_visualizer/models" TYPE DIRECTORY FILES "/home/zwhy/workspace/cross_device_tracking/src/detected_objects_visualizer/models/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/detected_objects_visualizer/models" TYPE DIRECTORY FILES "/home/zwhy/workspace/cross_device_track/src/detected_objects_visualizer/models/")
 endif()
 
