@@ -3,7 +3,7 @@
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 16:42:00
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-11 14:37:01
+LastEditTime: 2023-06-14 15:36:23
 FilePath: /cross_device_track/src/cross_device_tracking/scripts/tracker.py
 Description: 
 '''
@@ -87,10 +87,10 @@ class Track(object):
         else:
             del_index = []
             for i in range(len(det_list)):
-                print("det_list[{0}].coreinfo.type.data = {1}".format(
-                    i, det_list[i].coreinfo.type.data))
+                # print("det_list[{0}].coreinfo.type.data = {1}".format(
+                #     i, det_list[i].coreinfo.type.data))
                 type = self.num_2_label.get(det_list[i].coreinfo.type.data)
-                print("type = {0}".format(type))
+                # print("type = {0}".format(type))
                 if type not in TRACKING_NAMES:
                     # 这里直接删除是否会影响 i 的取值（解决方法应该是先记录索引，跳出for之后再删除）
                     del_index.append(i)
@@ -124,7 +124,7 @@ class Track(object):
         # 从当前帧减掉 v * t 的时间得到预测的上一帧坐标
         dets = np.array(
             [tempCt[i] + tempTracking[i] for i in range(len(tempCt))])
-        print()
+        # print()
         # for det in dets:
         #     print("x = {0}, y = {1}".format(det[0], det[1]))
         # for label in tempLabel:

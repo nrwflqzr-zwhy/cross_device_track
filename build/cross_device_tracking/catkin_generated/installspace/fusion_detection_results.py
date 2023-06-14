@@ -3,7 +3,7 @@
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 09:54:46
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-11 14:45:22
+LastEditTime: 2023-06-14 15:29:29
 FilePath: /cross_device_track/src/cross_device_tracking/scripts/fusion_detection_results.py
 Description: 
 '''
@@ -31,9 +31,9 @@ class MsgTrans(object):
     def __init__(
             self,
             dist_threshold,
-            sub_topic1='/site16_percept_topic',  #西侧雷达检测结果
+            sub_topic1='/site25_percept_topic',  #西侧雷达检测结果
             sub_type1=RsPerceptionMsg,
-            sub_topic2='/site17_percept_topic',
+            sub_topic2='/site3_percept_topic',
             sub_type2=RsPerceptionMsg,
             pub_topic='/fusion_detection',
             pub_type=RsPerceptionMsg):
@@ -78,7 +78,7 @@ class MsgTrans(object):
         ts = MyApproximateTimeSynchronizer(
             [self.subscriber1, self.subscriber2],
             10,
-            10,
+            0.1,
             allow_headerless=True)
         ts.registerCallback(self.callback)
         self.publisher = rospy.Publisher(self.pub_topic,
