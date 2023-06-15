@@ -3,7 +3,7 @@
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 09:54:46
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-14 15:29:29
+LastEditTime: 2023-06-14 16:06:35
 FilePath: /cross_device_track/src/cross_device_tracking/scripts/fusion_detection_results.py
 Description: 
 '''
@@ -116,14 +116,15 @@ class MsgTrans(object):
         # 第二步，计算两个检测结果之间 object 的距离
         dist = self.distance(det_list1, det_list2)
         # 小于一定值的距离认为是同一个物体（目前的策略是只保留 lidar1 下的物体）
+        # print(dist)
         match_obj = []
         for i in range(len(dist)):
             for j in range(len(dist[i])):
                 if dist[i][j] < self.dist_threshold:  #小于某一个距离阈值认为是同一个物体
-                    match_obj.append([i, j])
-
-        for list in match_obj:
-            del det_list2[list[1]]
+                    match_obj.append([j])
+        match_obj.reverse()
+        for index in match_obj:
+            det_list2.pop(index)
 
         # 将剩余 object 结合到一起，完成融合
         det_list_fusion_result = []
@@ -168,7 +169,7 @@ class MsgTrans(object):
 if __name__ == "__main__":
     rospy.init_node("fusion_detection_result")
     msgTrans = MsgTrans(1,
-                        sub_topic1='/site16_percept_topic',
-                        sub_topic2='/site17_percept_topic')
+                        sub_topic1='/site25_percept_topic',
+                        sub_topic2='/site3_percept_topic')
     msgTrans.run()
     rospy.spin()

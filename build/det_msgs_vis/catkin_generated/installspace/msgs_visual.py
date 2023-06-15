@@ -108,12 +108,10 @@ class Msg_visualizer(object):
             obj.pose.orientation.x, obj.pose.orientation.y, obj.pose.orientation.z, obj.pose.orientation.w = get_quaternion_from_euler(
                 0, 0, 1.6)
             if obj.label == 'car':
-                print('car')
                 obj.dimensions.x = 3.0  # h
                 obj.dimensions.y = 2.0  # w
                 obj.dimensions.z = 1.0  # l # 高度
             elif obj.label == 'people' or obj.label == 'cyclist':
-                print('people', 'cyclist')
                 obj.dimensions.x = 1.0  # h
                 obj.dimensions.y = 0.5  # w
                 obj.dimensions.z = 1.0  # l

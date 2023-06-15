@@ -74,5 +74,9 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "bit": "cpp"
-    }
+    },
+    "python.formatting.provider": "yapf",
+    "python.formatting.yapfArgs": [
+        "{      \"editor.rulers\": [         80,     ],     \"workbench.colorCustomizations\": {         \"editorRuler.foreground\": \"#ff4081\"     } }"
+    ]
 }
