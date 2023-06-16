@@ -393,7 +393,7 @@ VisualizeDetectedObjects::ObjectsToLabels(const autoware_msgs::DetectedObjectArr
 						distance_stream << std::fixed << std::setprecision(1)
 						                << sqrt((object.pose.position.x * object.pose.position.x) + (object.pose.position.y * object.pose.position.y));
 						std::string distance_str = distance_stream.str() + " m";
-						label_marker.text += distance_str;
+						// label_marker.text += distance_str;
 
 						if (object.velocity_reliable) {
 								double velocity = object.velocity.linear.x;

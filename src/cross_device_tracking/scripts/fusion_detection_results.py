@@ -3,7 +3,7 @@
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 09:54:46
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-14 16:06:35
+LastEditTime: 2023-06-15 16:00:20
 FilePath: /cross_device_track/src/cross_device_tracking/scripts/fusion_detection_results.py
 Description: 
 '''
@@ -31,9 +31,9 @@ class MsgTrans(object):
     def __init__(
             self,
             dist_threshold,
-            sub_topic1='/site25_percept_topic',  #西侧雷达检测结果
+            sub_topic1='/site4_percept_topic',  #西侧雷达检测结果
             sub_type1=RsPerceptionMsg,
-            sub_topic2='/site3_percept_topic',
+            sub_topic2='/site5_percept_topic',
             sub_type2=RsPerceptionMsg,
             pub_topic='/fusion_detection',
             pub_type=RsPerceptionMsg):
@@ -54,21 +54,26 @@ class MsgTrans(object):
         self.dist_threshold = dist_threshold
         #保存融合后的结果(主要是重叠部分的两个检测结果保留一个)
         self.obj = []
-        self.lidar_to_enu_16 = np.asarray(
-            [[-0.71635481, -0.69691056, 0.03393306, -425.917],
-             [0.69735469, -0.71672395, 0.00179464, -280.337],
-             [0.02306993, 0.02494898, 0.9994225, -6.279708862304688],
-             [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00]])
+        self.rotation_matrix_3 = np.asarray([[-0.1769985,   0.98405179, -0.01770906],
+                                             [-0.98418125, -0.17682429,  0.0109744 ],
+                                             [0.00766799,  0.01937137,  0.99978295]])
+        self.translation_vector_3 = np.array([[-116.137],[-151.939],[-6.889236450195312]])
 
-        ### 2023-3-7:
-        ### self.west_lidar_to_enu_quat = np.array([-0.02116055,  0.01760372,  0.35040421,  0.93619401])
-        ### self.east_lidar_to_enu_quat = np.array([-0.00575475, -0.00296919,  0.76783602, -0.6406137 ])
+        self.rotation_matrix_4 = np.asarray([[-0.34126769 , 0.93996558, -0.00103941],
+                                             [-0.93988725 ,-0.34125316, -0.01257899],
+                                             [-0.01217852, -0.00331587,  0.99992034]])
+        self.translation_vector_4 = np.array([[12.268],[-36.141],[-2.572]])
 
-        self.lidar_to_enu_17 = np.asarray(
-            [[-0.93116046, 0.36459978, -0.00268297, -439.526],
-             [-0.36454281, -0.93110544, -0.01229604, -179.563],
-             [-0.00698126, -0.01047153, 0.9999208, -5.753],
-             [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00]])
+        self.rotation_matrix_5 = np.asarray([[0.59719472,  0.80156111 ,-0.02929593],
+                                             [-0.80207434,  0.59705014 ,-0.01441818],
+                                             [0.00593408 , 0.03210797 , 0.99946679]])
+        self.translation_vector_5 = np.array([[11.842],[-163.613],[-4.211]])
+
+        self.rotation_matrix_25 = np.asarray([[0.77599946, -0.63064375,  0.01064403],
+                                              [0.63070051,  0.77602107, -0.0028579],
+                                              [-0.00645767,  0.00893092,  0.99993927]])
+        self.translation_vector_25 = np.array([[-297.244],[-161.664],[-6.922]])
+
 
     def run(self):
         self.subscriber1 = message_filters.Subscriber(self.sub_topic1,
@@ -107,12 +112,12 @@ class MsgTrans(object):
         #设备id应该是不需要了（只是为了保持数据的完整性能够发出去）
         rsPerceptionMsg.device_id.data = 0
         self.publisher.publish(rsPerceptionMsg)
-
+    
     def fusion_detection(self, det_list1, det_list2):
 
         # 第一步，将二者都变换到enu 坐标系
-        det_list1 = self.toenu(det_list1, self.lidar_to_enu_16)
-        det_list2 = self.toenu(det_list2, self.lidar_to_enu_17)
+        det_list1 = self.toenu(det_list1, self.rotation_matrix_3, self.translation_vector_3)
+        det_list2 = self.toenu(det_list2, self.rotation_matrix_25, self.translation_vector_25)
         # 第二步，计算两个检测结果之间 object 的距离
         dist = self.distance(det_list1, det_list2)
         # 小于一定值的距离认为是同一个物体（目前的策略是只保留 lidar1 下的物体）
@@ -134,31 +139,33 @@ class MsgTrans(object):
             det_list_fusion_result.append(obj)
         return det_list_fusion_result
 
-    def toenu(self, list, transformation_matrix):
-        point = []
-        new_point = []
+    def toenu(self, list, rotation_martix,translation_vector):
         for obj in list:
-            point = [
-                obj.coreinfo.center.x.data, obj.coreinfo.center.y.data,
-                obj.coreinfo.center.z.data, 1
-            ]
-            new_point = np.dot(transformation_matrix, point)
-            obj.coreinfo.center.x.data = new_point[0]
-            obj.coreinfo.center.y.data = new_point[1]
-            obj.coreinfo.center.z.data = new_point[2]
+            point = np.array([obj.coreinfo.center.x.data, obj.coreinfo.center.y.data, obj.coreinfo.center.z.data])
+            transformed_point = self.transform_point(point,rotation_martix,translation_vector)
+            obj.coreinfo.center.x.data = transformed_point[0]
+            obj.coreinfo.center.y.data = transformed_point[1]
+            obj.coreinfo.center.z.data = transformed_point[2]
         return list
+
+    def transform_point(self,point, rotation_matrix, translation_vector):
+        # 将点转换为齐次坐标
+        point = np.append(point, 1)
+        # 构造变换矩阵
+        transformation_matrix = np.vstack((np.hstack((rotation_matrix, translation_vector)), [0, 0, 0, 1]))
+        # 变换点
+        transformed_point = np.dot(transformation_matrix, point)
+        # 返回变换后的点
+        return transformed_point[:3]
 
     def distance(self, det_list1, det_list2):
         dist = []
         for obj1 in det_list1:
             distobj1 = []
             for obj2 in det_list2:
-                x_dist = (obj1.coreinfo.center.x.data -
-                          obj2.coreinfo.center.x.data)**2
-                y_dist = (obj1.coreinfo.center.y.data -
-                          obj2.coreinfo.center.y.data)**2
-                z_dist = (obj1.coreinfo.center.z.data -
-                          obj2.coreinfo.center.z.data)**2
+                x_dist = (obj1.coreinfo.center.x.data - obj2.coreinfo.center.x.data)**2
+                y_dist = (obj1.coreinfo.center.y.data - obj2.coreinfo.center.y.data)**2
+                z_dist = (obj1.coreinfo.center.z.data - obj2.coreinfo.center.z.data)**2
 
                 obj1_obj2_dist = math.sqrt(x_dist + y_dist + z_dist)
                 distobj1.append(obj1_obj2_dist)
@@ -169,7 +176,7 @@ class MsgTrans(object):
 if __name__ == "__main__":
     rospy.init_node("fusion_detection_result")
     msgTrans = MsgTrans(1,
-                        sub_topic1='/site25_percept_topic',
-                        sub_topic2='/site3_percept_topic')
+                        sub_topic1='/site3_percept_topic',
+                        sub_topic2='/site25_percept_topic')
     msgTrans.run()
     rospy.spin()
