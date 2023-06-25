@@ -105,8 +105,7 @@ class Msg_visualizer(object):
 
             obj.pose_reliable = True
             # 四元数在此处指定  目前是固定的
-            obj.pose.orientation.x, obj.pose.orientation.y, obj.pose.orientation.z, obj.pose.orientation.w = get_quaternion_from_euler(
-                0, 0, 1.6)
+            obj.pose.orientation.x, obj.pose.orientation.y, obj.pose.orientation.z, obj.pose.orientation.w = msg_data.lidarframe.objects.objects[i].coreinfo.direction.x.data,msg_data.lidarframe.objects.objects[i].coreinfo.direction.y.data,msg_data.lidarframe.objects.objects[i].coreinfo.direction.z.data,0
             if obj.label == 'car':
                 obj.dimensions.x = 3.0  # h
                 obj.dimensions.y = 2.0  # w

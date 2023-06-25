@@ -3,7 +3,7 @@
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 09:54:46
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-15 13:40:40
+LastEditTime: 2023-06-20 14:44:54
 FilePath: /cross_device_track/src/cross_device_tracking/scripts/fusion_detection_results.py
 Description: 
 '''
@@ -31,9 +31,9 @@ class MsgTrans(object):
     def __init__(
             self,
             dist_threshold,
-            sub_topic1='/site4_percept_topic',  #西侧雷达检测结果
+            sub_topic1='/site3_percept_topic', 
             sub_type1=RsPerceptionMsg,
-            sub_topic2='/site5_percept_topic',
+            sub_topic2='/site25_percept_topic',
             sub_type2=RsPerceptionMsg,
             pub_topic='/fusion_detection',
             pub_type=RsPerceptionMsg):
@@ -112,12 +112,12 @@ class MsgTrans(object):
         #设备id应该是不需要了（只是为了保持数据的完整性能够发出去）
         rsPerceptionMsg.device_id.data = 0
         self.publisher.publish(rsPerceptionMsg)
-
+    
     def fusion_detection(self, det_list1, det_list2):
 
         # 第一步，将二者都变换到enu 坐标系
-        det_list1 = self.toenu(det_list1, self.rotation_matrix_3, self.translation_vector_3)
-        det_list2 = self.toenu(det_list2, self.rotation_matrix_25, self.translation_vector_25)
+        # det_list1 = self.toenu(det_list1, self.rotation_matrix_4, self.translation_vector_4)
+        # det_list2 = self.toenu(det_list2, self.rotation_matrix_3, self.translation_vector_3)
         # 第二步，计算两个检测结果之间 object 的距离
         dist = self.distance(det_list1, det_list2)
         # 小于一定值的距离认为是同一个物体（目前的策略是只保留 lidar1 下的物体）
@@ -126,7 +126,7 @@ class MsgTrans(object):
         for i in range(len(dist)):
             for j in range(len(dist[i])):
                 if dist[i][j] < self.dist_threshold:  #小于某一个距离阈值认为是同一个物体
-                    match_obj.append([j])
+                    match_obj.append(j)
         match_obj.reverse()
         for index in match_obj:
             det_list2.pop(index)
@@ -153,6 +153,9 @@ class MsgTrans(object):
         point = np.append(point, 1)
         # 构造变换矩阵
         transformation_matrix = np.vstack((np.hstack((rotation_matrix, translation_vector)), [0, 0, 0, 1]))
+        # print("*********************************************************")
+        # print(transformation_matrix)
+        # print("*********************************************************")
         # 变换点
         transformed_point = np.dot(transformation_matrix, point)
         # 返回变换后的点
