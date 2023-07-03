@@ -156,8 +156,7 @@ struct Definition< ::all_msgs::RsPerceptionMsg_<ContainerAllocator> >
   {
     return "# Field Of LidarFrameMsg \n"
 "LidarFrameMsg           lidarframe \n"
-"std_msgs/Int32          device_id  \n"
-"\n"
+"std_msgs/Int32          device_id\n"
 "================================================================================\n"
 "MSG: all_msgs/LidarFrameMsg\n"
 "std_msgs/String frame_id\n"

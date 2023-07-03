@@ -1,10 +1,10 @@
-#! /usr/bin/env python
+#!/usr/bin/env python3
 '''
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 16:42:00
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-20 20:08:53
-FilePath: /cross_device_track/src/cross_device_tracking/scripts/tracker.py
+LastEditTime: 2023-06-29 13:24:14
+FilePath: /cross_device_track/src/cross_device_tracking/scripts/tracker_centerpoint.py
 Description: 
 '''
 
@@ -27,12 +27,8 @@ CLS_VELOCITY_ERROR = {
 
 class Track(object):
 
-    def __init__(self,
-                 max_age,
-                 sub_topic='/fusion_detection',
-                 sub_type=RsPerceptionMsg,
-                 pub_topic='/track_result',
-                 pub_type=RsPerceptionMsg):
+    def __init__(self, max_age, sub_topic='/fusion_detection', sub_type=RsPerceptionMsg, pub_topic='/track_result', pub_type=RsPerceptionMsg):
+
         self.count = 0  # 第几帧
         self.sub_topic = sub_topic
         self.sub_type = sub_type
@@ -56,11 +52,10 @@ class Track(object):
         }
 
     def run(self):
-        self.subscriber = rospy.Subscriber(self.sub_topic, self.sub_type,
-                                           self.callback)
-        self.publisher = rospy.Publisher(self.pub_topic,
-                                         self.pub_type,
-                                         queue_size=10)
+        self.subscriber = rospy.Subscriber(self.sub_topic, self.sub_type, self.callback)
+
+        self.publisher = rospy.Publisher(self.pub_topic, self.pub_type, queue_size=10)
+        
         self.reset()
 
     # 重置追踪器

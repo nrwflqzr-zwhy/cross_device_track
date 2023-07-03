@@ -80,8 +80,7 @@ class RsPerceptionMsg {
     return `
     # Field Of LidarFrameMsg 
     LidarFrameMsg           lidarframe 
-    std_msgs/Int32          device_id  
-    
+    std_msgs/Int32          device_id
     ================================================================================
     MSG: all_msgs/LidarFrameMsg
     std_msgs/String frame_id

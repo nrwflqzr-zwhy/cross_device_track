@@ -78,5 +78,11 @@
     "python.formatting.provider": "yapf",
     "python.formatting.yapfArgs": [
         "{      \"editor.rulers\": [         80,     ],     \"workbench.colorCustomizations\": {         \"editorRuler.foreground\": \"#ff4081\"     } }"
-    ]
+    ],
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "python.formatting.yapfPath": "yapf",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python"
+    }
 }

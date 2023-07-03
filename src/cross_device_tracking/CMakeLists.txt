@@ -163,7 +163,8 @@ include_directories(
 catkin_install_python(PROGRAMS
   scripts/myApproximateTimeSynchronizer.py
   scripts/fusion_detection_results.py
-  scripts/tracker.py
+  scripts/tracker_centerpoint.py
+  scripts/tracker_ab3d.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

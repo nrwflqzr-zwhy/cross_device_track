@@ -3,7 +3,7 @@
 Author: zwhy wa22201149@stu.ahu.edu.cn
 Date: 2023-05-24 09:54:46
 LastEditors: zwhy wa22201149@stu.ahu.edu.cn
-LastEditTime: 2023-06-20 14:44:54
+LastEditTime: 2023-06-30 15:59:39
 FilePath: /cross_device_track/src/cross_device_tracking/scripts/fusion_detection_results.py
 Description: 
 '''
@@ -11,12 +11,10 @@ import sys
 import os
 
 path = "/home/zwhy/workspace/cross_device_track"
-print("path = {0}".format(path))
 # 核心
 sys.path.insert(0, path + "/src/cross_device_tracking/scripts")
 
-print("path = {0}".format(path))
-
+print(sys.executable)
 import rospy
 import message_filters
 import numpy as np
