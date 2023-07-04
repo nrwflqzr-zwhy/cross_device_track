@@ -1,4 +1,6 @@
 import numpy as np, json
+import sys
+sys.path.append('/home/zwhy/workspace/Xinshuo_PyToolbox')
 
 from xinshuo_io import fileparts
 

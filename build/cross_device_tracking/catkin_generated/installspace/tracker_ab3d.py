@@ -10,10 +10,12 @@ path = "/home/zwhy/workspace/cross_device_track"
 sys.path.insert(0, path + "/src/cross_device_tracking/scripts")
 from AB3DMOT_libs.matching import data_association
 from AB3DMOT_libs.box import Box3D
+from AB3DMOT_libs.kalman_filter import *
 from jsk_recognition_msgs.msg import BoundingBox, BoundingBoxArray
 from visualization_msgs.msg import Marker,MarkerArray
 from all_msgs.msg import Objects
 from all_msgs.msg import RsPerceptionMsg
+from scipy.spatial.transform import Rotation as R
 
 TRACKING_NAMES = ['people', 'cyclist', 'car', 'bus', 'truck']
 
@@ -31,7 +33,14 @@ class AB3DMOT():
 
 		self.sub_topic = sub_topic; self.sub_type = sub_type
 		self.pub_topic = pub_topic; self.pub_type = pub_type
-		# counter
+		self.metric = 'm_dis'
+		self.thres = 0.2
+		self.algm = 'hungar'
+		self.min_hits = 3
+		self.max_age = 2
+		self.max_sim = 0.0
+		self.min_sim = -100.
+		self.ID_start=1 
 		self.trackers = []
 		self.frame_count = 0
 		self.ID_count = [ID_init]
@@ -56,7 +65,7 @@ class AB3DMOT():
 		self.subscriber = rospy.Subscriber(self.sub_topic, self.sub_type, self.callback)
 		self.publisher = rospy.Publisher(self.pub_topic, self.pub_type, queue_size=20)
 		self.bbox_publish = rospy.Publisher("tracking_bboxes", BoundingBoxArray, queue_size=10)
-		self.marker_pub = rospy.Publisher( 'visualization_marker_array', MarkerArray)	
+		self.marker_pub = rospy.Publisher( 'visualization_marker_array', MarkerArray, queue_size=100)	
 	'''
 	description: ros回调函数,接收检测结果
 	param {*} self
@@ -81,7 +90,7 @@ class AB3DMOT():
 			# score
 			scores.append(obj.coreinfo.exist_confidence.data)
 			# label
-			labels.append(self.num_2_label(obj.coreinfo.type.data))
+			labels.append(self.num_2_label.get(obj.coreinfo.type.data))
 
 		info_data=[]
 		dic_dets={}
@@ -103,7 +112,6 @@ class AB3DMOT():
 		# h,w,l,x,y,z,theta, ID, other info, confidence
 
 		bbox_array=BoundingBoxArray()
-		cats=["Pedestrian", "Cyclist", "Car"]
 		idx = 0
 		self.markerArray = MarkerArray()
 		#for trk in trk_result: print(trk[9])
@@ -111,32 +119,47 @@ class AB3DMOT():
 		for i, trk in enumerate(trk_result):
 			if np.size(trk) == 0:
 				continue
-			if trk[9]>0.5:
-				q = yaw_to_quaternion(trk[6])
+			if float(trk[9])>0.5:
+				q = yaw_to_quaternion(float(trk[6]))
 				bbox = BoundingBox()
 				marker = Marker()
-
-				marker.header.stamp = rospy.Time.fromSec(msg_data.lidarframe.timestamp);
-				marker.header.frame_id = msg_data.lidarframe.frame_id
+				# h,w,l,x,y,z,theta, ID, other info, confidence
+				marker.header.stamp = rospy.Time.from_sec(msg_data.lidarframe.timestamp.data);
+				marker.header.frame_id = msg_data.lidarframe.frame_id.data
 				marker.type = marker.TEXT_VIEW_FACING
 				marker.id = int(trk[7])
-				marker.text = f"{int(trk[7])} {cats[int(trk[8])]}"
+				# print("trk[7] = {0}".format(trk[7]), end= ' ')
+				# print("trk[8] = {0}".format(trk[8]))
+				marker.text = f"{int(trk[7])} {trk[8]}"
 				marker.action = marker.ADD
 				marker.frame_locked = True
 				marker.lifetime = rospy.Duration(0.1)
 				marker.scale.x, marker.scale.y,marker.scale.z = 0.8, 0.8, 0.8
 				marker.color.r, marker.color.g, marker.color.b, marker.color.a = 1.0, 1.0, 1.0, 1.0
-				marker.pose.position.x, marker.pose.position.y, marker.pose.position.z = trk[3], trk[4], trk[5] + 2
+				print("**********")
+				print(trk[0])
+				print(trk[1])
+				print(trk[2])
+				print(trk[3])
+				print(trk[4])
+				print(trk[5])
+				print(trk[6])
+				print(trk[7])
+				print(trk[8])
+				print(trk[9])
 
-				bbox.header.stamp = rospy.Time.fromSec(msg_data.lidarframe.timestamp);
-				bbox.header.frame_id = msg_data.lidarframe.frame_id
+				marker.pose.position.x, marker.pose.position.y, marker.pose.position.z = float(trk[3]), float(trk[4]), float(trk[5])
+
+				bbox.header.stamp = rospy.Time.from_sec(msg_data.lidarframe.timestamp.data);
+				bbox.header.frame_id = msg_data.lidarframe.frame_id.data
 				#bbox.header.stamp = lidarMsg.header.stamp
 				#bbox.header.frame_id = lidarMsg.header.frame_id
-				bbox.pose.position.x, bbox.pose.position.y, bbox.pose.position.z = trk[3], trk[4], trk[5]
+				bbox.pose.position.x, bbox.pose.position.y, bbox.pose.position.z = float(trk[3]), float(trk[4]), float(trk[5])
 				bbox.pose.orientation.w, bbox.pose.orientation.x, bbox.pose.orientation.y, bbox.pose.orientation.z = q[3], q[0], q[1], q[2]
-				bbox.dimensions.x, bbox.dimensions.y, bbox.dimensions.z = trk[2], trk[1], trk[0]
-				bbox.value = trk[9]
-				bbox.label = int(trk[8])
+
+				bbox.dimensions.x, bbox.dimensions.y, bbox.dimensions.z = float(trk[2]), float(trk[1]), float(trk[0])
+				bbox.value = float(trk[9])
+				bbox.label = self.find_key_by_value(self.num_2_label, trk[8])
 				bbox_array.header = bbox.header
 				bbox_array.boxes.append(bbox)
 				self.markerArray.markers.append(marker)
@@ -153,6 +176,14 @@ class AB3DMOT():
 			bbox_array.boxes = []
 			self.bbox_publish.publish(bbox_array)
 			#self.marker_pub.publish(self.markerArray)
+
+	def find_key_by_value(self, d, value):
+		for k, v in d.items():
+			if v == value:
+				return k
+		
+		return None
+
 
 
 	def process_dets(self, dets, info):
@@ -372,8 +403,8 @@ class AB3DMOT():
 		if len(results) > 0: results = [np.concatenate(results)]		# h,w,l,x,y,z,theta, ID, other info, confidence
 		else:            	 results = [np.empty((0, 10))]
 		self.id_now_output = results[0][:, 7].tolist()				# only the active tracks that are outputed
-		if self.affi_process:
-			affi = self.process_affi(affi, matched, unmatched_dets, new_id_list)
+		# if self.affi_process:
+		# 	affi = self.process_affi(affi, matched, unmatched_dets, new_id_list)
 
 		return results, affi
 

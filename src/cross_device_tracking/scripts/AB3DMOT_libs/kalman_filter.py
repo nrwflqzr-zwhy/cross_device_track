@@ -1,5 +1,13 @@
+'''
+Author: zwhy wa22201149@stu.ahu.edu.cn
+Date: 2023-06-30 15:13:06
+LastEditors: zwhy wa22201149@stu.ahu.edu.cn
+LastEditTime: 2023-07-04 10:50:51
+FilePath: /cross_device_track/src/cross_device_tracking/scripts/AB3DMOT_libs/kalman_filter.py
+Description: 
+'''
 import numpy as np
-from filterpy.kalman import KalmanFilter, UnscentedKalmanFilter, MerweScaledSigmaPoints
+from kalman import KalmanFilter, UnscentedKalmanFilter, MerweScaledSigmaPoints
 
 class Filter(object):
 	def __init__(self, bbox3D, info, ID):
