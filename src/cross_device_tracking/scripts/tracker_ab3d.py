@@ -94,8 +94,8 @@ class AB3DMOT():
 
 		info_data=[]
 		dic_dets={}
-
 		info_data = np.stack((labels, scores), axis=1)	
+		# print(info_data)
 		dic_dets={'dets': dets, 'info': info_data}
 		
 		# ******************************************* 开始追踪 ****************************************************
@@ -228,7 +228,55 @@ class AB3DMOT():
 
 		trks = []
 		for t in range(len(self.trackers)):
+			'''
+			    def predict(self, u=None, B=None, F=None, Q=None):
+        """
+        Predict next state (prior) using the Kalman filter state propagation
+        equations.
+
+        Parameters
+        ----------
+
+        u : np.array
+            Optional control vector. If not `None`, it is multiplied by B
+            to create the control input into the system.
+
+        B : np.array(dim_x, dim_z), or None
+            Optional control transition matrix; a value of None
+            will cause the filter to use `self.B`.
+
+        F : np.array(dim_x, dim_x), or None
+            Optional state transition matrix; a value of None
+            will cause the filter to use `self.F`.
+
+        Q : np.array(dim_x, dim_x), scalar, or None
+            Optional process noise matrix; a value of None will cause the
+            filter to use `self.Q`.
+        """
+
+        if B is None:
+            B = self.B
+        if F is None:
+            F = self.F
+        if Q is None:
+            Q = self.Q
+        elif isscalar(Q):
+            Q = eye(self.dim_x) * Q
+
+        # x = Fx + Bu
+        if B is not None and u is not None:
+            self.x = dot(F, self.x) + dot(B, u)
+        else:
+            self.x = dot(F, self.x)
+
+        # P = FPF' + Q
+        self.P = self._alpha_sq * dot(dot(F, self.P), F.T) + Q
+
+        # save prior
+        self.x_prior = self.x.copy()
+        self.P_prior = self.P.copy()
 			
+			'''
 			# propagate locations
 			kf_tmp = self.trackers[t]
 			kf_tmp.kf.predict()

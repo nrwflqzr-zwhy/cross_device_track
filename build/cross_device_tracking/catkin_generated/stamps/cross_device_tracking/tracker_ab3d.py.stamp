@@ -96,6 +96,7 @@ class AB3DMOT():
 		dic_dets={}
 
 		info_data = np.stack((labels, scores), axis=1)	
+		print(info_data)
 		dic_dets={'dets': dets, 'info': info_data}
 		
 		# ******************************************* 开始追踪 ****************************************************
@@ -136,34 +137,19 @@ class AB3DMOT():
 				marker.lifetime = rospy.Duration(0.1)
 				marker.scale.x, marker.scale.y,marker.scale.z = 0.8, 0.8, 0.8
 				marker.color.r, marker.color.g, marker.color.b, marker.color.a = 1.0, 1.0, 1.0, 1.0
-				print("**********")
-				print(trk[0])
-				print(trk[1])
-				print(trk[2])
-				print(trk[3])
-				print(trk[4])
-				print(trk[5])
-				print(trk[6])
-				print(trk[7])
-				print(trk[8])
-				print(trk[9])
-
 				marker.pose.position.x, marker.pose.position.y, marker.pose.position.z = float(trk[3]), float(trk[4]), float(trk[5])
-
 				bbox.header.stamp = rospy.Time.from_sec(msg_data.lidarframe.timestamp.data);
 				bbox.header.frame_id = msg_data.lidarframe.frame_id.data
 				#bbox.header.stamp = lidarMsg.header.stamp
 				#bbox.header.frame_id = lidarMsg.header.frame_id
 				bbox.pose.position.x, bbox.pose.position.y, bbox.pose.position.z = float(trk[3]), float(trk[4]), float(trk[5])
 				bbox.pose.orientation.w, bbox.pose.orientation.x, bbox.pose.orientation.y, bbox.pose.orientation.z = q[3], q[0], q[1], q[2]
-
 				bbox.dimensions.x, bbox.dimensions.y, bbox.dimensions.z = float(trk[2]), float(trk[1]), float(trk[0])
 				bbox.value = float(trk[9])
 				bbox.label = self.find_key_by_value(self.num_2_label, trk[8])
 				bbox_array.header = bbox.header
 				bbox_array.boxes.append(bbox)
 				self.markerArray.markers.append(marker)
-		
 		#bbox_array.header.frame_id = lidarMsg.header.frame_id
 		#print("len of bbox array from tracking", len(bbox_array.boxes))
 		#print(bbox_array.boxes)
@@ -183,8 +169,6 @@ class AB3DMOT():
 				return k
 		
 		return None
-
-
 
 	def process_dets(self, dets, info):
 	

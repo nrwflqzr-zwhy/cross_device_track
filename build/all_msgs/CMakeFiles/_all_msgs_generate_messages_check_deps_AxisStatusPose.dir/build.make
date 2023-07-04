@@ -67,7 +67,7 @@ include all_msgs/CMakeFiles/_all_msgs_generate_messages_check_deps_AxisStatusPos
 include all_msgs/CMakeFiles/_all_msgs_generate_messages_check_deps_AxisStatusPose.dir/progress.make
 
 all_msgs/CMakeFiles/_all_msgs_generate_messages_check_deps_AxisStatusPose:
-	cd /home/zwhy/workspace/cross_device_track/build/all_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py all_msgs /home/zwhy/workspace/cross_device_track/src/all_msgs/msg/AxisStatusPose.msg all_msgs/Pose:std_msgs/Int32:std_msgs/Float32
+	cd /home/zwhy/workspace/cross_device_track/build/all_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py all_msgs /home/zwhy/workspace/cross_device_track/src/all_msgs/msg/AxisStatusPose.msg all_msgs/Pose:std_msgs/Float32:std_msgs/Int32
 
 _all_msgs_generate_messages_check_deps_AxisStatusPose: all_msgs/CMakeFiles/_all_msgs_generate_messages_check_deps_AxisStatusPose
 _all_msgs_generate_messages_check_deps_AxisStatusPose: all_msgs/CMakeFiles/_all_msgs_generate_messages_check_deps_AxisStatusPose.dir/build.make
