@@ -389,7 +389,7 @@ class KalmanFilter(object):
        https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
 
     """
-
+    # dim_x = 10, dim_z = 7
     def __init__(self, dim_x, dim_z, dim_u=0):
         if dim_x < 1:
             raise ValueError('dim_x must be 1 or greater')
@@ -402,16 +402,24 @@ class KalmanFilter(object):
         self.dim_z = dim_z
         self.dim_u = dim_u
 
-        self.x = zeros((dim_x, 1))        # state
-        self.P = eye(dim_x)               # uncertainty covariance
+
+        # 在这段代码中，dim_x和dim_z分别表示状态向量和测量向量的维度。状态向量self.x被初始化为一个dim_x乘1的零矩阵。不确定性协方差矩阵self.P，过程不确定性矩阵self.Q和状态转移矩阵self.F都被初始化为dim_x乘dim_x的单位矩阵。控制转移矩阵self.B被初始化为None。
+
+        # 测量函数矩阵self.H被初始化为一个dim_z乘dim_x的零矩阵。状态不确定性矩阵self.R被初始化为一个dim_z乘dim_z的单位矩阵。衰减记忆控制变量self._alpha_sq被初始化为1。
+
+        # 过程-测量交叉相关矩阵self.M被初始化为一个dim_z乘dim_z的零矩阵。测量向量self.z被初始化为一个dim_z乘1的数组，其中所有元素都是None。
+
+
+        self.x = zeros((dim_x, 1))        # state  dim_x * 1 的零矩阵
+        self.P = eye(dim_x)               # uncertainty covariance dim_x * dim_x 的单位矩阵
         self.Q = eye(dim_x)               # process uncertainty
         self.B = None                     # control transition matrix
         self.F = eye(dim_x)               # state transition matrix
-        self.H = zeros((dim_z, dim_x))    # Measurement function
+        self.H = zeros((dim_z, dim_x))    # Measurement function  dim_z * dim_x 的零矩阵
         self.R = eye(dim_z)               # state uncertainty
         self._alpha_sq = 1.               # fading memory control
         self.M = np.zeros((dim_z, dim_z)) # process-measurement cross correlation
-        self.z = np.array([[None]*self.dim_z]).T
+        self.z = np.array([[None]*self.dim_z]).T  # dim_z * 1 的数组
 
         # gain and residual are computed during the innovation step. We
         # save them so that in case you want to inspect them for various
@@ -421,7 +429,7 @@ class KalmanFilter(object):
         self.S = np.zeros((dim_z, dim_z)) # system uncertainty
         self.SI = np.zeros((dim_z, dim_z)) # inverse system uncertainty
 
-        # identity matrix. Do not alter this.
+        # identity matrix. Do not alter this.   单位矩阵
         self._I = np.eye(dim_x)
 
         # these will always be a copy of x,P after predict() is called

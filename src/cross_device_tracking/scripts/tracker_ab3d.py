@@ -13,7 +13,7 @@ from AB3DMOT_libs.box import Box3D
 from AB3DMOT_libs.kalman_filter import *
 from jsk_recognition_msgs.msg import BoundingBox, BoundingBoxArray
 from visualization_msgs.msg import Marker,MarkerArray
-from all_msgs.msg import Objects
+from all_msgs.msg import Object
 from all_msgs.msg import RsPerceptionMsg
 from scipy.spatial.transform import Rotation as R
 
@@ -64,7 +64,7 @@ class AB3DMOT():
 	def run(self):
 		self.subscriber = rospy.Subscriber(self.sub_topic, self.sub_type, self.callback)
 		self.publisher = rospy.Publisher(self.pub_topic, self.pub_type, queue_size=20)
-		self.bbox_publish = rospy.Publisher("tracking_bboxes", BoundingBoxArray, queue_size=10)
+		self.bbox_publish = rospy.Publisher('tracking_bboxes', BoundingBoxArray, queue_size=10)
 		self.marker_pub = rospy.Publisher( 'visualization_marker_array', MarkerArray, queue_size=100)	
 	'''
 	description: ros回调函数,接收检测结果
@@ -75,6 +75,7 @@ class AB3DMOT():
 	def callback(self, msg_data):
 		# 获取所有的检测物体
 		obj_list = msg_data.lidarframe.objects.objects
+		print("融合后的检测结果数目={0}".format(len(obj_list)))
 		# 组织AB3DMOT需要的结构 [h,w,l,x,y,z,o] + [label,score]
 		dets = []
 		scores = []
@@ -101,12 +102,12 @@ class AB3DMOT():
 		# ******************************************* 开始追踪 ****************************************************
 		start=rospy.Time.now().to_sec()
 		cat_res, _=self.track(dic_dets)		
-
+		print(cat_res)
 		self.ID_start=max(self.ID_start, self.ID_count[0]) ##global counter
 		trk_result=cat_res[0]
+		print("len(trk_result)={0}".format(len(trk_result)))
 		#print("*******", trk_result)
 		end=rospy.Time.now().to_sec()
-		print("time for tracking",(end-start))
 
 		#track detections - now we are considering Car class model for all classes - ToDo : add cyclist and pedestrian categories
 		# h,w,l,x,y,z,theta, ID, other info, confidence
@@ -114,6 +115,9 @@ class AB3DMOT():
 		bbox_array=BoundingBoxArray()
 		idx = 0
 		self.markerArray = MarkerArray()
+		rs = RsPerceptionMsg()
+		rs.lidarframe = msg_data.lidarframe
+		track_result = []
 		#for trk in trk_result: print(trk[9])
 		#print("------------------------")
 		for i, trk in enumerate(trk_result):
@@ -123,8 +127,14 @@ class AB3DMOT():
 				q = yaw_to_quaternion(float(trk[6]))
 				bbox = BoundingBox()
 				marker = Marker()
+				obj = Object()
+				obj.coreinfo.timestamp.data = msg_data.lidarframe.timestamp.data
+				obj.coreinfo.center.x.data,obj.coreinfo.center.y.data,obj.coreinfo.center.z.data = float(trk[3]), float(trk[4]), float(trk[5])
+				obj.coreinfo.size.x.data,obj.coreinfo.size.y.data,obj.coreinfo.size.z.data = float(trk[2]), float(trk[1]), float(trk[0])
+				obj.coreinfo.type.data = self.find_key_by_value(self.num_2_label, trk[8])
+				obj.coreinfo.trakcer_id.data = int(trk[7])
 				# h,w,l,x,y,z,theta, ID, other info, confidence
-				marker.header.stamp = rospy.Time.from_sec(msg_data.lidarframe.timestamp.data);
+				marker.header.stamp = rospy.Time.from_sec(msg_data.lidarframe.timestamp.data)
 				marker.header.frame_id = msg_data.lidarframe.frame_id.data
 				marker.type = marker.TEXT_VIEW_FACING
 				marker.id = int(trk[7])
@@ -137,7 +147,7 @@ class AB3DMOT():
 				marker.scale.x, marker.scale.y,marker.scale.z = 0.8, 0.8, 0.8
 				marker.color.r, marker.color.g, marker.color.b, marker.color.a = 1.0, 1.0, 1.0, 1.0
 				marker.pose.position.x, marker.pose.position.y, marker.pose.position.z = float(trk[3]), float(trk[4]), float(trk[5])
-				bbox.header.stamp = rospy.Time.from_sec(msg_data.lidarframe.timestamp.data);
+				bbox.header.stamp = rospy.Time.from_sec(msg_data.lidarframe.timestamp.data)
 				bbox.header.frame_id = msg_data.lidarframe.frame_id.data
 				#bbox.header.stamp = lidarMsg.header.stamp
 				#bbox.header.frame_id = lidarMsg.header.frame_id
@@ -149,6 +159,10 @@ class AB3DMOT():
 				bbox_array.header = bbox.header
 				bbox_array.boxes.append(bbox)
 				self.markerArray.markers.append(marker)
+				track_result.append(obj)
+		
+		rs.lidarframe.objects.objects = track_result
+		self.publisher.publish(rs)
 		#bbox_array.header.frame_id = lidarMsg.header.frame_id
 		#print("len of bbox array from tracking", len(bbox_array.boxes))
 		#print(bbox_array.boxes)
@@ -158,6 +172,7 @@ class AB3DMOT():
 			bbox_array.boxes = []
 
 		else:
+			print("bbox = []")
 			bbox_array.boxes = []
 			self.bbox_publish.publish(bbox_array)
 			#self.marker_pub.publish(self.markerArray)
@@ -407,7 +422,7 @@ class AB3DMOT():
 		# process detection format
 		dets = self.process_dets(dets, info)
 		#print(dets[0].cls,"dets with classes")
-
+		
 		# tracks propagation based on velocity
 		trks = self.prediction()
 		#print("trks after prediction: ", trks)
@@ -464,6 +479,6 @@ def yaw_to_quaternion(yaw):
 if __name__ == '__main__':
 	rospy.init_node("trackingNode")
 	ID_start = 1
-	ab3dmot = AB3DMOT(ID_init=ID_start, sub_topic='/fusion_detection', pub_topic='track_result')
+	ab3dmot = AB3DMOT(ID_init=ID_start, sub_topic='/fusion_detection', pub_topic='/track_result')
 	ab3dmot.run()
 	rospy.spin()

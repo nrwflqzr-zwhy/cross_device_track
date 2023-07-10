@@ -67,7 +67,7 @@ include all_msgs/CMakeFiles/_all_msgs_generate_messages_check_deps_EndPoints.dir
 include all_msgs/CMakeFiles/_all_msgs_generate_messages_check_deps_EndPoints.dir/progress.make
 
 all_msgs/CMakeFiles/_all_msgs_generate_messages_check_deps_EndPoints:
-	cd /home/zwhy/workspace/cross_device_track/build/all_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py all_msgs /home/zwhy/workspace/cross_device_track/src/all_msgs/msg/EndPoints.msg all_msgs/Point2f:std_msgs/Float32
+	cd /home/zwhy/workspace/cross_device_track/build/all_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py all_msgs /home/zwhy/workspace/cross_device_track/src/all_msgs/msg/EndPoints.msg std_msgs/Float32:all_msgs/Point2f
 
 _all_msgs_generate_messages_check_deps_EndPoints: all_msgs/CMakeFiles/_all_msgs_generate_messages_check_deps_EndPoints
 _all_msgs_generate_messages_check_deps_EndPoints: all_msgs/CMakeFiles/_all_msgs_generate_messages_check_deps_EndPoints.dir/build.make
